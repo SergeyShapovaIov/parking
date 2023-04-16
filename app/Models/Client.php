@@ -15,6 +15,10 @@ class Client extends Model
         return $clients;
     }
 
+    static function getPaginated($number_page) {
+        return DB::table('client')->skip(($number_page-1) * 1)->take(1)->get();
+    }
+
     static function store($name, $gender, $phone_number, $address) 
     {
         if(DB::table('client')->where('phone_number', $phone_number)->exists()) {
@@ -34,6 +38,11 @@ class Client extends Model
         $id = DB::table('client')->where('phone_number', $phone_number)->value('id');
 
         return $id;
+    }
+
+    static function pageCount($row_on_page) {
+        $count_page = DB::table('client')->count('phone_number');
+        return ceil($count_page/$row_on_page);
     }
 
 }

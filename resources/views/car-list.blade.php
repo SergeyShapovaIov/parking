@@ -35,7 +35,6 @@
             </div>
             @endfor
         </div>
-
         <div class="pagination-container">
             <div class="pagination-wrapper">
                 <nav aria-label="Page navigation example">

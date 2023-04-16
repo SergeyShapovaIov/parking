@@ -34,20 +34,49 @@
             </div>
             @endforeach
         </div>
-
+        @if($pageCount > 1)
         <div class="pagination-container">
             <div class="pagination-wrapper">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
-                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                        <li class="page-item @if($pageNumber == 1) disabled @endif"><a class="page-link" href="/client-list?page={{$pageNumber-1}}">Previous</a></li>
+                        @if($pageCount < 5)
+                            @for($i = 1; $i <= $pageCount; $i++)
+                            <li class="page-item @if($i == $pageNumber) active @endif"><a class="page-link" href="/client-list?page= {{ $i }}">{{ $i }}</a></li>
+                            @endfor
+                        @else
+
+                            @if($pageNumber <= 4 )
+                                @for($i = 1; $i <= 5; $i++)
+                                    <li class="page-item @if($i == $pageNumber) active @endif"><a class="page-link" href="/client-list?page= {{ $i }}">{{ $i }}</a></li>
+                                @endfor
+                            @endif
+
+                            @if($pageNumber > 4 && $pageNumber <= $pageCount-4)
+                                <li class="page-item @if($pageNumber == 1) active @endif"><a class="page-link" href="/client-list?page= {{ 1 }}">{{ 1 }}</a></li>
+                                <li class="page-item"><a class="page-link" href="#"> ... </a></li>
+                                <li class="page-item"><a class="page-link" href="/client-list?page= {{ $pageNumber - 2 }}">{{ $pageNumber - 2 }}</a></li>
+                                <li class="page-item"><a class="page-link" href="/client-list?page= {{ $pageNumber - 1 }}">{{ $pageNumber - 1 }}</a></li>
+                                <li class="page-item active"><a class="page-link" href="/client-list?page= {{ $pageNumber }}">{{ $pageNumber }}</a></li>
+                                <li class="page-item "><a class="page-link" href="/client-list?page= {{ $pageNumber + 1 }}">{{ $pageNumber + 1 }}</a></li>
+                                <li class="page-item"><a class="page-link" href="/client-list?page= {{ $pageNumber + 2 }}">{{ $pageNumber + 2 }}</a></li>
+                                <li class="page-item"><a class="page-link" href="#"> ... </a></li>
+                                <li class="page-item @if($pageNumber == $pageCount) active @endif"><a class="page-link" href="/client-list?page= {{ $pageCount }}">{{ $pageCount }}</a></li>
+                            @endif
+
+                            @if($pageNumber > 4 && $pageNumber > $pageCount -4)
+                            @for($i = $pageCount-4; $i <= $pageCount; $i++)
+                                    <li class="page-item @if($i == $pageNumber) active @endif"><a class="page-link" href="/client-list?page= {{ $i }}">{{ $i }}</a></li>
+                                @endfor
+                            @endif
+                        @endif
+                        
+                        <li class="page-item @if($pageNumber == $pageCount) disabled @endif"><a class="page-link" href="/client-list?page={{$pageNumber+1}}">Next</a></li>
                     </ul>
                 </nav>
             </div>
         </div>
+        @endif
     </div>
 
 </div>

@@ -18,9 +18,25 @@ class ViewController extends Controller
         return view('car-list');
     }
 
-    public function clientList() 
+    public function clientList(Request $request)
     {
-        return view('client-list', ['clients' => Client::getAll()]);
+        $pageCount = Client::pageCount(1);
+
+        $validated = $request->validate([
+            'page' => 'nullable|integer|min:1|max:255'
+        ]);
+        
+        $page = $validated['page'] ?? 1;
+
+        if($page > $pageCount) {
+            return redirect()->route('client-list',  ['page' => $pageCount]);
+        } 
+
+        return view('client-list', [
+            'clients' => Client::getPaginated($page),
+            'pageCount' => $pageCount,
+            'pageNumber' => $page
+        ]); 
     }
 
     public function addClient() 

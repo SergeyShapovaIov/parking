@@ -28,7 +28,6 @@ class ClientController extends Controller
 
         }
         
-        
         return redirect('/add-client');
     }
 
