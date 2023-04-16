@@ -13,14 +13,14 @@
             </div>
         </div>
         <div class="mt-5">
-            @for ($i = 0; $i < 5; $i++)
+            @foreach ($clients as $client)
             <div class="item-container">
                 <div class="container text-center">
                     <div class="row mt-3">
-                        <div class="col-4"> Иванов Иван Иванович</div>
-                        <div class="col-3"> 89234781234</div>
+                        <div class="col-4"> {{ $client->name }}</div>
+                        <div class="col-3"> {{ $client->phone_number}}</div>
                         <div class="col-3">
-                            <a href="/client-update/{{$i}}">
+                            <a href="/client-update/{{ $client->id }}">
                                 <button type="button" class="btn btn-light">Редактировать</button>
                             </a>
                         </div>
@@ -32,7 +32,7 @@
                     </div>
                 </div>
             </div>
-            @endfor
+            @endforeach
         </div>
 
         <div class="pagination-container">

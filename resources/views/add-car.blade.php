@@ -9,10 +9,11 @@
             <div class="mb-3">
                 <label for="disabledSelect" class="form-label">Владелец</label>
                 <select id="disabledSelect" class="form-select">
-                    <option>Иванов Иван Иванович</option>
-                    <option>Макаров Макар Макарович</option>
-                    <option>Иванов Иван Иванович</option>
-                    <option>Макаров Макар Макарович</option>
+
+                    @foreach ($clients as $client)
+                        <option> {{ $client->name }}</option>
+                    @endforeach
+                    
                 </select>
             </div>
             <div class="mb-3">
