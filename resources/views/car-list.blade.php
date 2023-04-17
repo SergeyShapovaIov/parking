@@ -13,42 +13,73 @@
             </div>
         </div>
         <div class="mt-5">
-            @for ($i = 0; $i < 5; $i++)
+            @foreach ($cars as $car)
             <div class="item-container">
                 <div class="container text-center">
                     <div class="row mt-3">
-                        <div class="col-2"> Лада Калина</div>
-                        <div class="col-2"> А777УЕ134</div>
-                        <div class="col-4"> Иванов Иван Иванович</div>
+                        <div class="col-2"> {{ $car->brand }} </div>
+                        <div class="col-2"> {{ $car->rf_license_number }} </div>
+                        <div class="col-4"> {{ $car->owner_name }} </div>
                         <div class="col-2">
-                            <a href="/update-car/{{$i}}">
+                            <a href="/update-car/{{ $car->id }}">
                                 <button type="button" class="btn btn-light">Редактировать</button>
                             </a>
                         </div>
                         <div class="col-2">
-                            <a href="/">
-                                <button type="button" class="btn btn-light">Удалить</button>
-                            </a>
+                            <form action="{{ route('car.delete', $car->id) }}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-light">Удалить</button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-            @endfor
+            @endforeach
         </div>
-        <div class="pagination-container">
+        @if($pageCount > 1)
+        <div class="pagination-container justify-content-center d-flex">
             <div class="pagination-wrapper">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
-                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                        <li class="page-item @if($pageNumber == 1) disabled @endif"><a class="page-link" href="/client-list?page={{$pageNumber-1}}">Previous</a></li>
+                        @if($pageCount < 9)
+                            @for($i = 1; $i <= $pageCount; $i++)
+                            <li class="page-item @if($i == $pageNumber) active @endif"><a class="page-link" href="/client-list?page= {{ $i }}">{{ $i }}</a></li>
+                            @endfor
+                        @else
+
+                            @if($pageNumber <= 9 )
+                                @for($i = 1; $i <=10; $i++)
+                                    <li class="page-item @if($i == $pageNumber) active @endif"><a class="page-link" href="/client-list?page= {{ $i }}">{{ $i }}</a></li>
+                                @endfor
+                            @endif
+
+                            @if($pageNumber > 9 && $pageNumber <= $pageCount-9)
+                                <li class="page-item @if($pageNumber == 1) active @endif"><a class="page-link" href="/client-list?page= {{ 1 }}">{{ 1 }}</a></li>
+                                <li class="page-item"><a class="page-link" href="#"> ... </a></li>
+                                <li class="page-item"><a class="page-link" href="/client-list?page= {{ $pageNumber - 2 }}">{{ $pageNumber - 2 }}</a></li>
+                                <li class="page-item"><a class="page-link" href="/client-list?page= {{ $pageNumber - 1 }}">{{ $pageNumber - 1 }}</a></li>
+                                <li class="page-item active"><a class="page-link" href="/client-list?page= {{ $pageNumber }}">{{ $pageNumber }}</a></li>
+                                <li class="page-item "><a class="page-link" href="/client-list?page= {{ $pageNumber + 1 }}">{{ $pageNumber + 1 }}</a></li>
+                                <li class="page-item"><a class="page-link" href="/client-list?page= {{ $pageNumber + 2 }}">{{ $pageNumber + 2 }}</a></li>
+                                <li class="page-item"><a class="page-link" href="#"> ... </a></li>
+                                <li class="page-item @if($pageNumber == $pageCount) active @endif"><a class="page-link" href="/client-list?page= {{ $pageCount }}">{{ $pageCount }}</a></li>
+                            @endif
+
+                            @if($pageNumber > 9 && $pageNumber > $pageCount -9)
+                            @for($i = $pageCount-9; $i <= $pageCount; $i++)
+                                    <li class="page-item @if($i == $pageNumber) active @endif"><a class="page-link" href="/client-list?page= {{ $i }}">{{ $i }}</a></li>
+                                @endfor
+                            @endif
+                        @endif
+                        
+                        <li class="page-item @if($pageNumber == $pageCount) disabled @endif"><a class="page-link" href="/client-list?page={{$pageNumber+1}}">Next</a></li>
                     </ul>
                 </nav>
             </div>
         </div>
-    </div>
+        @endif
 
 </div>
 <style>
