@@ -17,6 +17,8 @@ class ViewController extends Controller
     {
         $pageCount = Car::pageCount(10);
 
+        $pageCount = $pageCount == 0 ? 1 : $pageCount;
+
         $validated = $request->validate([
             'page' => 'nullable|integer|min:1|max:255'
         ]);
@@ -37,6 +39,8 @@ class ViewController extends Controller
     public function clientList(Request $request)
     {
         $pageCount = Client::pageCount(10);
+
+        $pageCount = $pageCount == 0 ? 1 : $pageCount;
 
         $validated = $request->validate([
             'page' => 'nullable|integer|min:1|max:255'
