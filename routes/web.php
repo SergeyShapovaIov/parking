@@ -42,5 +42,8 @@ Route::prefix('car')->group(function() {
     Route::get('{car}/edit', [CarController::class, 'edit'])->name('car.edit')->whereNumber('car');
     Route::put('{car}', [CarController::class, 'update'])->name('car.update')->whereNumber('car');
     Route::delete('{car}', [CarController::class, 'delete'])->name('car.delete')->whereNumber('car');
+    Route::get('by-id-client/{id}', [CarController::class, 'getByIdClient'])->name('car.byIdClient')->whereNumber('id');
+    Route::post('update-status/add', [CarController::class, 'upStatusByCarId'])->name('car.update-status.add');
+    Route::post('update-status/delete', [CarController::class, 'downStatusByCarId'])->name('car.update-status.delete');
 });
 

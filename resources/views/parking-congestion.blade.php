@@ -1,24 +1,24 @@
 @extends('base')
 @section('content')
 <div class="mt-5">
-    <form class="col-lg-6 offset-lg-3">
+    <form class="col-lg-6 offset-lg-3" method="post" action="car/update-status/add">
+        @csrf
         <div class="row justify-content-center">
             <div class="mb-3">
                 <h4>Добавление клиента на стоянку</h4>
             </div>
             <div class="mb-3">
-                <label for="disabledSelect" class="form-label">Клиент</label>
-                <select id="disabledSelect" class="form-select">
+                <label for="clientSelect" class="form-label">Клиент</label>
+                <select name="client" id="clientSelect" class="form-select">
                     @foreach ($clients as $client)
                     <option value="{{ $client->id }}"> {{ $client->name }} </option>
                     @endforeach
                 </select>
             </div>
             <div class="mb-3">
-                <label for="disabledSelect" class="form-label">Автомобиль</label>
-                <select id="disabledSelect" class="form-select">
-                    <option>Лада Калина А233ОЛ134</option>
-                    <option>Лада Приора Т123ЛЛ134</option>
+                <label for="carSelect" class="form-label">Автомобиль</label>
+                <select name="car_id" id="carSelect" class="form-select">
+                    
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Добавить на стоянку</button>
@@ -35,7 +35,11 @@
                 <div class="text-item">{{ $car->rf_license_number }}</div>
             </div>
             <div class="button-delete">
-                <button type="button" id="delete-button" class="btn btn-light">Убрать со стоянки</button>
+            <form action="car/update-status/delete" method="post">
+                @csrf
+                 <input type="hidden" class="" value="{{ $car->id }}" name="car_id">
+                <button type="submit" id="delete-button" class="btn btn-light">Убрать со стоянки</button>
+            </form>
             </div>
         </div>
          @endforeach
@@ -132,10 +136,15 @@
 </style>
 
 <script>
-//     $("button").change(function(){
-//         $.get("demo_test.asp", function(data, status){
-//     alert("Data: " + data + "\nStatus: " + status);
-//   });
-// }); 
+    $("#clientSelect").change( function () {
+        var select = document.getElementById("clientSelect");
+        $.get('car/by-id-client/' + select.value , function (data){
+            $("#carSelect").find('option').remove();
+            for(i = 0; i < data.length; i++) {
+                $("#carSelect").prepend('<option value="' + data[i]["id"] + '">'+ data[i]["brand"] + " " + data[i]["model"] + " " + data[i]["rf_license_number"] + '</option>');
+            }
+        })
+    });
+
 </script>
 @endsection

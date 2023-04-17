@@ -65,5 +65,29 @@ class Car extends Model
         ->skip(($number_page-1) * 10)
         ->take(10)->get();
     }
+
+    static function getByIdClient($id)
+    {
+        return DB::table('car')
+            ->where('client_id', $id)
+            ->where('status', 0)
+            ->get();
+    }
+
+    static function updateStatusByCarId($id, $action)
+    {
+        if($action == 'add') {
+
+            DB::table('car')
+            ->where('id', $id)
+            ->update(['status' => 1]);
+
+        } else {
+            DB::table('car')
+            ->where('id', $id)
+            ->update(['status' => 0]);
+        }
+
+    }
 }
 
