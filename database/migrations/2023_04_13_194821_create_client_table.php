@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('client', function (Blueprint $table) {
-            $table->id()->primary()->autoIncrement();
+            $table->id();
             $table->string('name');
-            $table->string('gender')->nullable();
-            $table->string('phone_number')->nullable()->unique();
+            $table->string('gender');
+            $table->string('phone_number')->unique();
             $table->string('address');
         });
     }
