@@ -16,10 +16,10 @@ class ClientController extends Controller
     public function store(Request $request) 
     {
         $validated = $request->validate([
-            'name' => 'require|max:255',
-            'gender' => 'require',
-            'phone_number' => 'require|size:11',
-            'address' => 'require|max:255'
+            'name' => 'required|max:255',
+            'gender' => 'required',
+            'phone_number' => 'required|size:11',
+            'address' => 'required|max:255'
         ]);
 
         try {

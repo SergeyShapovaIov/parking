@@ -47,4 +47,38 @@ class CarController extends Controller
 
         return redirect('car-list');
     }
+
+    public function getByIdClient(Request $request)
+    {
+        $validated = validator($request->route()->parameters(), [
+
+            'id' => 'required'
+
+        ])->validate();
+
+        return Car::getByIdClient($validated['id']);
+    }
+
+    public function downStatusByCarId(Request $request)
+    {
+        $validated = $request->validate([
+            'car_id' => 'required|min:0|numeric'
+        ]);
+
+        Car::updateStatusByCarId($validated['car_id'], 'delete');
+
+        return redirect('parking-congestion');
+
+    }
+
+    public function upStatusByCarId(Request $request)
+    {
+        $validated = $request->validate([
+            'car_id' => 'required|min:0|numeric'
+        ]);
+
+        Car::updateStatusByCarId($validated['car_id'], 'add');
+
+        return redirect('parking-congestion');
+    }
 }
