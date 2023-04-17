@@ -10,16 +10,16 @@ class ClientController extends Controller
 {
     public function getAll() 
     {
-        return $clients;
+        //
     }
 
     public function store(Request $request) 
     {
         $validated = $request->validate([
-            'name' => 'required|max:255',
-            'gender' => 'required',
-            'phone_number' => 'required|size:11',
-            'address' => 'required|max:255'
+            'name' => 'require|max:255',
+            'gender' => 'require',
+            'phone_number' => 'require|size:11',
+            'address' => 'require|max:255'
         ]);
 
         try {
@@ -33,7 +33,7 @@ class ClientController extends Controller
 
     public function show() 
     {
-        
+        //
     }
 
     public function edit() 
@@ -43,13 +43,12 @@ class ClientController extends Controller
 
     public function update() 
     {
-
+        //
     }
 
     public function delete(Request $request, $id) 
     {
-        // dd($request->route()->parameters());
-
+        
         $validated = validator($request->route()->parameters(), [
 
             'client' => 'required'
