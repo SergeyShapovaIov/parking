@@ -25,9 +25,11 @@
                             </a>
                         </div>
                         <div class="col-2">
-                            <a href="/">
-                                <button type="button" class="btn btn-light">Удалить</button>
-                            </a>
+                            <form action="{{ route('client.delete',$client->id) }}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-light">Удалить</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -35,24 +37,24 @@
             @endforeach
         </div>
         @if($pageCount > 1)
-        <div class="pagination-container">
+        <div class="pagination-container justify-content-center d-flex">
             <div class="pagination-wrapper">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
                         <li class="page-item @if($pageNumber == 1) disabled @endif"><a class="page-link" href="/client-list?page={{$pageNumber-1}}">Previous</a></li>
-                        @if($pageCount < 5)
+                        @if($pageCount < 9)
                             @for($i = 1; $i <= $pageCount; $i++)
                             <li class="page-item @if($i == $pageNumber) active @endif"><a class="page-link" href="/client-list?page= {{ $i }}">{{ $i }}</a></li>
                             @endfor
                         @else
 
-                            @if($pageNumber <= 4 )
-                                @for($i = 1; $i <= 5; $i++)
+                            @if($pageNumber <= 9 )
+                                @for($i = 1; $i <=10; $i++)
                                     <li class="page-item @if($i == $pageNumber) active @endif"><a class="page-link" href="/client-list?page= {{ $i }}">{{ $i }}</a></li>
                                 @endfor
                             @endif
 
-                            @if($pageNumber > 4 && $pageNumber <= $pageCount-4)
+                            @if($pageNumber > 9 && $pageNumber <= $pageCount-9)
                                 <li class="page-item @if($pageNumber == 1) active @endif"><a class="page-link" href="/client-list?page= {{ 1 }}">{{ 1 }}</a></li>
                                 <li class="page-item"><a class="page-link" href="#"> ... </a></li>
                                 <li class="page-item"><a class="page-link" href="/client-list?page= {{ $pageNumber - 2 }}">{{ $pageNumber - 2 }}</a></li>
@@ -64,8 +66,8 @@
                                 <li class="page-item @if($pageNumber == $pageCount) active @endif"><a class="page-link" href="/client-list?page= {{ $pageCount }}">{{ $pageCount }}</a></li>
                             @endif
 
-                            @if($pageNumber > 4 && $pageNumber > $pageCount -4)
-                            @for($i = $pageCount-4; $i <= $pageCount; $i++)
+                            @if($pageNumber > 9 && $pageNumber > $pageCount -9)
+                            @for($i = $pageCount-9; $i <= $pageCount; $i++)
                                     <li class="page-item @if($i == $pageNumber) active @endif"><a class="page-link" href="/client-list?page= {{ $i }}">{{ $i }}</a></li>
                                 @endfor
                             @endif
@@ -134,8 +136,8 @@
     }
 
     .pagination-wrapper {
-        width: 300px;
-        margin: auto;
+        /* width: 600px; */
+        /* margin: auto; */
     }
 
 </style>

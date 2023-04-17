@@ -46,8 +46,18 @@ class ClientController extends Controller
 
     }
 
-    public function delete() 
+    public function delete(Request $request, $id) 
     {
+        // dd($request->route()->parameters());
 
+        $validated = validator($request->route()->parameters(), [
+
+            'client' => 'required'
+        
+        ])->validate();
+
+        Client::deleteById($validated['client']);
+
+        return redirect('client-list');
     }
 }

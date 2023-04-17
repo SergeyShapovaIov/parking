@@ -20,7 +20,7 @@ class ViewController extends Controller
 
     public function clientList(Request $request)
     {
-        $pageCount = Client::pageCount(1);
+        $pageCount = Client::pageCount(10);
 
         $validated = $request->validate([
             'page' => 'nullable|integer|min:1|max:255'
