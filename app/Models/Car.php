@@ -26,7 +26,7 @@ class Car extends Model
     static function store($brand, $model, $color_bodywork, $rf_license_number, $status, $client_id) 
     {
         if(DB::table('car')->where('rf_license_number', $rf_license_number)->exists()) {
-            throw new \Exception;
+            throw new \Exception("Машина с таким номером уже существует");
         } else {
             DB::table('car')->insert([
                 'brand' => $brand,
@@ -112,6 +112,20 @@ class Car extends Model
     static function getOwnerByIdCar($car_id)
     {
         return DB::table('car')->where('id', $car_id)->value('client_id');
+    }
+
+    static function getWithoutOwner()
+    {
+        return DB::table('car')->where('client_id', NULL)->get();
+    }
+
+    static function updateOwnerByID($client_id, $car_id)
+    {
+        DB::table('car')
+            ->where('id', $car_id)
+            ->update([
+            'client_id' => $client_id
+        ]);
     }
 }
 

@@ -23,15 +23,17 @@ class Client extends Model
     static function store($name, $gender, $phone_number, $address)
     {
         if (DB::table('client')->where('phone_number', $phone_number)->exists()) {
-            throw new \Exception;
+            throw new \Exception("Пользователь с таким номером уже зарегистрирован");
         } else {
-            DB::table('client')->insert([
+            $id = DB::table('client')->insertGetId([
                 'name' => $name,
                 'gender' => $gender,
                 'phone_number' => $phone_number,
                 'address' => $address
             ]);
         }
+
+        return $id;
     }
 
     static function getIdClientByPhoneNumber($phone_number)

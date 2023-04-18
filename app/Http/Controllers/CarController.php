@@ -11,7 +11,7 @@ class CarController extends Controller
     {
 
         $validated = $request->validate([
-            'client_id' => 'required|min:0',
+            'client_id' => 'nullable',
             'brand' => 'required|max:255',
             'model' => 'required|max:255',
             'color_bodywork' => 'required|max:255',
@@ -26,10 +26,10 @@ class CarController extends Controller
                 $validated['color_bodywork'],
                 $validated['rf_license_number'],
                 $status = isset($validated['status']) ? 1 : 0,
-                $validated['client_id'],
+                $client = isset($validated['client_id']) ? $validated['client_id'] : NULL,
             );
         } catch (\Exception $exception) {
-
+            return redirect('add-car')->with('message', $exception->getMessage());
         }
 
         return redirect('');

@@ -5,17 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Client;
+use App\Models\Car;
 
 class ClientController extends Controller
 {
-    public function getAll() 
+    public function getAll()
     {
         //
     }
 
-    public function store(Request $request) 
+    public function store(Request $request)
     {
         $validated = $request->validate([
+            'car_id' => 'required',
             'name' => 'required|max:255',
             'gender' => 'required',
             'phone_number' => 'required|size:11',
@@ -23,20 +25,22 @@ class ClientController extends Controller
         ]);
 
         try {
-            Client::store($validated['name'], $validated['gender'], $validated['phone_number'], $validated['address']);
-        } catch (Exception) {
+            $id = Client::store($validated['name'], $validated['gender'], $validated['phone_number'], $validated['address']);
+            Car::updateOwnerByID($id, $validated['car_id']);
+        } catch (\Exception $exception) {
 
+            return redirect('add-client')->with('message', $exception->getMessage());
         }
-        
+
         return redirect('/add-client');
     }
 
-    public function show() 
+    public function show()
     {
         //
     }
 
-    public function edit() 
+    public function edit()
     {
         //
     }
@@ -63,17 +67,18 @@ class ClientController extends Controller
 
         }
 
-        return redirect('/client-update/'.$validated['client_id']);
+        return redirect('/client-update/' . $validated['client_id']);
     }
 
-    public function delete(Request $request, $id) 
+    public function delete(Request $request)
     {
-        
+
         $validated = validator($request->route()->parameters(), [
 
             'client' => 'required'
-        
+
         ])->validate();
+
 
         Client::deleteById($validated['client']);
 
