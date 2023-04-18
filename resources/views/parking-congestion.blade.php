@@ -11,14 +11,14 @@
                 <label for="clientSelect" class="form-label">Клиент</label>
                 <select name="client" id="clientSelect" class="form-select">
                     @foreach ($clients as $client)
-                    <option value="{{ $client->id }}"> {{ $client->name }} </option>
+                    <option value="{{ $client->id }}"> {{ $client->name }}</option>
                     @endforeach
                 </select>
             </div>
             <div class="mb-3">
                 <label for="carSelect" class="form-label">Автомобиль</label>
                 <select name="car_id" id="carSelect" class="form-select">
-                    
+
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Добавить на стоянку</button>
@@ -27,7 +27,7 @@
 </div>
 <div class="mt-5">
     <div class="col-lg-6 offset-lg-3">
-        @foreach ($cars as $car) 
+        @foreach ($cars as $car)
         <div class="item-container">
             <div class="text-container">
                 <div class="text-item">{{ $car->owner_name }}</div>
@@ -35,59 +35,78 @@
                 <div class="text-item">{{ $car->rf_license_number }}</div>
             </div>
             <div class="button-delete">
-            <form action="car/update-status/delete" method="post">
-                @csrf
-                 <input type="hidden" class="" value="{{ $car->id }}" name="car_id">
-                <button type="submit" id="delete-button" class="btn btn-light">Убрать со стоянки</button>
-            </form>
+                <form action="car/update-status/delete" method="post">
+                    @csrf
+                    <input type="hidden" class="" value="{{ $car->id }}" name="car_id">
+                    <button type="submit" id="delete-button" class="btn btn-light">Убрать со стоянки</button>
+                </form>
             </div>
         </div>
-         @endforeach
+        @endforeach
     </div>
 </div>
 @if($pageCount > 1)
-        <div class="pagination-container justify-content-center d-flex">
-            <div class="pagination-wrapper">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        <li class="page-item @if($pageNumber == 1) disabled @endif"><a class="page-link" href="/client-list?page={{$pageNumber-1}}">Previous</a></li>
-                        @if($pageCount < 9)
-                            @for($i = 1; $i <= $pageCount; $i++)
-                            <li class="page-item @if($i == $pageNumber) active @endif"><a class="page-link" href="/client-list?page= {{ $i }}">{{ $i }}</a></li>
-                            @endfor
-                        @else
+<div class="pagination-container justify-content-center d-flex">
+    <div class="pagination-wrapper">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item @if($pageNumber == 1) disabled @endif"><a class="page-link"
+                                                                               href="/client-list?page={{$pageNumber-1}}">Previous</a>
+                </li>
+                @if($pageCount < 9)
+                @for($i = 1; $i <= $pageCount; $i++)
+                <li class="page-item @if($i == $pageNumber) active @endif"><a class="page-link"
+                                                                              href="/client-list?page= {{ $i }}">{{ $i
+                    }}</a></li>
+                @endfor
+                @else
 
-                            @if($pageNumber <= 9 )
-                                @for($i = 1; $i <=10; $i++)
-                                    <li class="page-item @if($i == $pageNumber) active @endif"><a class="page-link" href="/client-list?page= {{ $i }}">{{ $i }}</a></li>
-                                @endfor
-                            @endif
+                @if($pageNumber <= 9 )
+                @for($i = 1; $i <=10; $i++)
+                <li class="page-item @if($i == $pageNumber) active @endif"><a class="page-link"
+                                                                              href="/client-list?page= {{ $i }}">{{ $i
+                    }}</a></li>
+                @endfor
+                @endif
 
-                            @if($pageNumber > 9 && $pageNumber <= $pageCount-9)
-                                <li class="page-item @if($pageNumber == 1) active @endif"><a class="page-link" href="/client-list?page= {{ 1 }}">{{ 1 }}</a></li>
-                                <li class="page-item"><a class="page-link" href="#"> ... </a></li>
-                                <li class="page-item"><a class="page-link" href="/client-list?page= {{ $pageNumber - 2 }}">{{ $pageNumber - 2 }}</a></li>
-                                <li class="page-item"><a class="page-link" href="/client-list?page= {{ $pageNumber - 1 }}">{{ $pageNumber - 1 }}</a></li>
-                                <li class="page-item active"><a class="page-link" href="/client-list?page= {{ $pageNumber }}">{{ $pageNumber }}</a></li>
-                                <li class="page-item "><a class="page-link" href="/client-list?page= {{ $pageNumber + 1 }}">{{ $pageNumber + 1 }}</a></li>
-                                <li class="page-item"><a class="page-link" href="/client-list?page= {{ $pageNumber + 2 }}">{{ $pageNumber + 2 }}</a></li>
-                                <li class="page-item"><a class="page-link" href="#"> ... </a></li>
-                                <li class="page-item @if($pageNumber == $pageCount) active @endif"><a class="page-link" href="/client-list?page= {{ $pageCount }}">{{ $pageCount }}</a></li>
-                            @endif
+                @if($pageNumber > 9 && $pageNumber <= $pageCount-9)
+                <li class="page-item @if($pageNumber == 1) active @endif"><a class="page-link"
+                                                                             href="/client-list?page= {{ 1 }}">{{ 1
+                    }}</a></li>
+                <li class="page-item"><a class="page-link" href="#"> ... </a></li>
+                <li class="page-item"><a class="page-link" href="/client-list?page= {{ $pageNumber - 2 }}">{{
+                    $pageNumber - 2 }}</a></li>
+                <li class="page-item"><a class="page-link" href="/client-list?page= {{ $pageNumber - 1 }}">{{
+                    $pageNumber - 1 }}</a></li>
+                <li class="page-item active"><a class="page-link" href="/client-list?page= {{ $pageNumber }}">{{
+                    $pageNumber }}</a></li>
+                <li class="page-item "><a class="page-link" href="/client-list?page= {{ $pageNumber + 1 }}">{{
+                    $pageNumber + 1 }}</a></li>
+                <li class="page-item"><a class="page-link" href="/client-list?page= {{ $pageNumber + 2 }}">{{
+                    $pageNumber + 2 }}</a></li>
+                <li class="page-item"><a class="page-link" href="#"> ... </a></li>
+                <li class="page-item @if($pageNumber == $pageCount) active @endif"><a class="page-link"
+                                                                                      href="/client-list?page= {{ $pageCount }}">{{
+                    $pageCount }}</a></li>
+                @endif
 
-                            @if($pageNumber > 9 && $pageNumber > $pageCount -9)
-                            @for($i = $pageCount-9; $i <= $pageCount; $i++)
-                                    <li class="page-item @if($i == $pageNumber) active @endif"><a class="page-link" href="/client-list?page= {{ $i }}">{{ $i }}</a></li>
-                                @endfor
-                            @endif
-                        @endif
-                        
-                        <li class="page-item @if($pageNumber == $pageCount) disabled @endif"><a class="page-link" href="/client-list?page={{$pageNumber+1}}">Next</a></li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-        @endif
+                @if($pageNumber > 9 && $pageNumber > $pageCount -9)
+                @for($i = $pageCount-9; $i <= $pageCount; $i++)
+                <li class="page-item @if($i == $pageNumber) active @endif"><a class="page-link"
+                                                                              href="/client-list?page= {{ $i }}">{{ $i
+                    }}</a></li>
+                @endfor
+                @endif
+                @endif
+
+                <li class="page-item @if($pageNumber == $pageCount) disabled @endif"><a class="page-link"
+                                                                                        href="/client-list?page={{$pageNumber+1}}">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+@endif
 <style>
     .item-container {
         background-color: #0d6efd;
@@ -136,14 +155,20 @@
 </style>
 
 <script>
-    $("#clientSelect").change( function () {
+    function changeDataInSelect() {
         var select = document.getElementById("clientSelect");
-        $.get('car/by-id-client/' + select.value , function (data){
+        $.get('car/by-id-client/' + select.value, function (data) {
             $("#carSelect").find('option').remove();
-            for(i = 0; i < data.length; i++) {
-                $("#carSelect").prepend('<option value="' + data[i]["id"] + '">'+ data[i]["brand"] + " " + data[i]["model"] + " " + data[i]["rf_license_number"] + '</option>');
+            for (i = 0; i < data.length; i++) {
+                $("#carSelect").prepend('<option value="' + data[i]["id"] + '">' + data[i]["brand"] + " " + data[i]["model"] + " " + data[i]["rf_license_number"] + '</option>');
             }
         })
+    }
+
+    changeDataInSelect();
+
+    $("#clientSelect").change(function () {
+        changeDataInSelect();
     });
 
 </script>

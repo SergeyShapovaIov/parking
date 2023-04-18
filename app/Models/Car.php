@@ -66,7 +66,7 @@ class Car extends Model
         ->take(10)->get();
     }
 
-    static function getByIdClient($id)
+    static function getByIdClientNotParking($id)
     {
         return DB::table('car')
             ->where('client_id', $id)
@@ -88,6 +88,30 @@ class Car extends Model
             ->update(['status' => 0]);
         }
 
+    }
+
+    static function getByIdClient($id)
+    {
+        return DB::table('car')->where('client_id', $id)->get();
+    }
+
+    static function updateById($brand, $model, $color_bodywork, $rf_license_number, $status, $car_id)
+    {
+
+        DB::table('car')
+            ->where('id', $car_id)
+            ->update([
+                'brand' => $brand,
+                'model' => $model,
+                'color_bodywork'=> $color_bodywork,
+                'rf_license_number' => $rf_license_number,
+                'status' => $status
+            ]);
+    }
+
+    static function getOwnerByIdCar($car_id)
+    {
+        return DB::table('car')->where('id', $car_id)->value('client_id');
     }
 }
 

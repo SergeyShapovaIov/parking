@@ -23,15 +23,15 @@ Route::get('/client-list', [ViewController::class, 'clientList'])->name('client-
 Route::get('/add-client', [ViewController::class, 'addClient'])->name('add-client');
 Route::get('/add-car', [ViewController::class, 'addCar'])->name('add-car');
 Route::get('/parking-congestion', [ViewController::class, 'parkingCongestion'])->name('parking-congestion');
-Route::get('/client-update/{client}', [ViewController::class, 'clientUodateById'])->name('client-update')->whereNumber('client');
-Route::get('/car-update/{{car}}', [ViewController::class, 'carUpdateById'])->name('car-update')->whereNumber('car');
+Route::get('/client-update/{client_id}', [ViewController::class, 'clientUpdateById'])->name('client-update')->whereNumber('client_id');
+Route::get('/car-update/{car_id}', [ViewController::class, 'carUpdateById'])->name('car-update')->whereNumber('car_id');
 
 Route::prefix('client')->group(function() {
     Route::get('getAll', [ClientController::class, 'getAll'])->name('client.getAll');
     Route::post('create', [ClientController::class, 'store'])->name('client.store');
     Route::get('{client}', [ClientController::class, 'show'])->name('client.show')->whereNumber('client');
     Route::get('{client}/edit', [ClientController::class, 'edit'])->name('client.edit')->whereNumber('client');
-    Route::put('{client}', [ClientController::class, 'update'])->name('client.update')->whereNumber('client');
+    Route::post('update', [ClientController::class, 'update'])->name('client.update')->whereNumber('client');
     Route::delete('{client}', [ClientController::class, 'delete'])->name('client.delete')->whereNumber('client');
 });
 
@@ -40,7 +40,7 @@ Route::prefix('car')->group(function() {
     Route::post('create', [CarController::class, 'store'])->name('car.store');
     Route::get('{car}', [CarController::class, 'show'])->name('car.show')->whereNumber('car');
     Route::get('{car}/edit', [CarController::class, 'edit'])->name('car.edit')->whereNumber('car');
-    Route::put('{car}', [CarController::class, 'update'])->name('car.update')->whereNumber('car');
+    Route::post('update', [CarController::class, 'update'])->name('car.update')->whereNumber('car');
     Route::delete('{car}', [CarController::class, 'delete'])->name('car.delete')->whereNumber('car');
     Route::get('by-id-client/{id}', [CarController::class, 'getByIdClient'])->name('car.byIdClient')->whereNumber('id');
     Route::post('update-status/add', [CarController::class, 'upStatusByCarId'])->name('car.update-status.add');

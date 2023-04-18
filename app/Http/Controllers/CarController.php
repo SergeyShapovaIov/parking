@@ -7,7 +7,7 @@ use App\Models\Car;
 
 class CarController extends Controller
 {
-    public function store(Request $request) 
+    public function store(Request $request)
     {
 
         $validated = $request->validate([
@@ -21,26 +21,53 @@ class CarController extends Controller
 
         try {
             Car::store(
-                $validated['brand'], 
-                $validated['model'], 
-                $validated['color_bodywork'], 
+                $validated['brand'],
+                $validated['model'],
+                $validated['color_bodywork'],
                 $validated['rf_license_number'],
-                $status = isset($validated['status']) ? 1 : 0, 
-                $validated['client_id'], 
+                $status = isset($validated['status']) ? 1 : 0,
+                $validated['client_id'],
             );
-        } catch (Exception) {
+        } catch (\Exception $exception) {
 
         }
 
-        return redirect('/add-car');
+        return redirect('');
     }
 
-    public function delete(Request $request) 
+    public function update(Request $request)
+    {
+        $validated = $request->validate([
+            'car_id' => 'required|min:0',
+            'brand' => 'required|max:255',
+            'model' => 'required|max:255',
+            'color_bodywork' => 'required|max:255',
+            'status' => 'nullable',
+            'rf_license_number' => 'required|max:9'
+        ]);
+
+        try {
+            Car::updateById(
+                $validated['brand'],
+                $validated['model'],
+                $validated['color_bodywork'],
+                $validated['rf_license_number'],
+                $status = isset($validated['status']) ? 1 : 0,
+                $validated['car_id'],
+            );
+        } catch (\Exception) {
+
+        }
+
+        return redirect('/client-update/'.Car::getOwnerByIdCar($validated['car_id']));
+    }
+
+    public function delete(Request $request)
     {
         $validated = validator($request->route()->parameters(), [
 
             'car' => 'required'
-        
+
         ])->validate();
 
         Car::deleteById($validated['car']);
@@ -56,8 +83,9 @@ class CarController extends Controller
 
         ])->validate();
 
-        return Car::getByIdClient($validated['id']);
+        return Car::getByIdClientNotParking($validated['id']);
     }
+
 
     public function downStatusByCarId(Request $request)
     {
@@ -70,6 +98,7 @@ class CarController extends Controller
         return redirect('parking-congestion');
 
     }
+
 
     public function upStatusByCarId(Request $request)
     {

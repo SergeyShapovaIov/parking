@@ -41,9 +41,29 @@ class ClientController extends Controller
         //
     }
 
-    public function update() 
+    public function update(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'client_id' => 'required|min:0',
+            'name' => 'required|max:255',
+            'gender' => 'required',
+            'phone_number' => 'required|size:11',
+            'address' => 'required|max:255'
+        ]);
+
+        try {
+            Client::updateById(
+                $validated['name'],
+                $validated['gender'],
+                $validated['phone_number'],
+                $validated['address'],
+                $validated['client_id'],
+            );
+        } catch (\Exception) {
+
+        }
+
+        return redirect('/client-update/'.$validated['client_id']);
     }
 
     public function delete(Request $request, $id) 

@@ -4,7 +4,7 @@
 <div class="mt-5 col-lg-6 offset-lg-3">
   @if ($errors->any())
   <div class="alert alert-danger">
-    <ul>
+    <ul class="error-alert">
       @foreach ($errors->all() as $error)
       <li>{{ $error }}</li>
       @endforeach
@@ -47,5 +47,7 @@
 @endsection
 
 <style>
-
+.error-alert {
+     list-style-type: none;
+}
 </style>

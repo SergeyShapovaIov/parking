@@ -83,23 +83,42 @@ class ViewController extends Controller
 
         if($page > $pageCount) {
             return redirect()->route('parking-congestion',  ['page' => $pageCount]);
-        } 
+        }
         
+        $clients = Client::getAll();
+
         return view('parking-congestion' , [ 
         'cars' => Car::getPaginatedCarOnParking($page),
-        'clients' => Client::getAll(),
+        'clients' => $clients,
         'pageCount' => $pageCount,
         'pageNumber' => $page
         ]);
     }
 
-    public function clientUodateById() 
+    public function clientUpdateById(Request $request, $client_id)
     {
-        return view('client-update');
+        $validated = validator($request->route()->parameters(), [
+
+            'client_id' => 'required|min:1'
+
+        ])->validate();
+
+        return view('client-update', [
+        'client' => Client::getClientById($validated['client_id']),
+        'cars'=> Car::getByIdClient($validated['client_id'])
+        ]);
     }
 
-    public function carUpdateById() 
+    public function carUpdateById(Request $request)
     {
-        return redirect('client-update');
+        $validated = validator($request->route()->parameters(), [
+
+            'car_id' => 'required|min:1'
+
+        ])->validate();
+
+        $client_id = Car::getOwnerByIdCar($validated['car_id']);
+
+        return redirect('client-update/'.$client_id);
     }
 }

@@ -21,7 +21,7 @@
                         <div class="col-2"> {{ $car->rf_license_number }} </div>
                         <div class="col-4"> {{ $car->owner_name }} </div>
                         <div class="col-2">
-                            <a href="/update-car/{{ $car->id }}">
+                            <a href="/car-update/{{ $car->id }}">
                                 <button type="button" class="btn btn-light">Редактировать</button>
                             </a>
                         </div>
