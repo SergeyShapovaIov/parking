@@ -45,7 +45,12 @@
             </div>
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Гос номер РФ</label>
-                <input name="rf_license_number" class="form-control" type="text" placeholder="А000РР134">
+                <input name="rf_license_number" class="form-control @if(session('message')) is-invalid @endif" type="text" placeholder="А000РР134">
+                 @if(session('message'))
+                <div id="exampleInputEmail1" class="invalid-feedback">
+                    Автомобиль с таким номеро уже существует
+                </div>
+                @endif
             </div>
             <div class="mb-3">
                 <input name="status" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">

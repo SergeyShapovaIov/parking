@@ -59,14 +59,18 @@ class ViewController extends Controller
         ]); 
     }
 
-    public function addClient() 
+    public function addClient(Request $request)
     {
-        return view('add-client');
+        return view('add-client', [
+            'cars' => Car::getWithoutOwner()
+        ]);
     }
 
     public function addCar() 
     {
-        return view('add-car', ['clients' => Client::getAll()]);
+        return view('add-car', [
+            'clients' => Client::getAll()]
+        );
     }
 
     public function parkingCongestion(Request $request) 

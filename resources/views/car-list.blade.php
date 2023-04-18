@@ -19,7 +19,7 @@
                     <div class="row mt-3">
                         <div class="col-2"> {{ $car->brand }} </div>
                         <div class="col-2"> {{ $car->rf_license_number }} </div>
-                        <div class="col-4"> {{ $car->owner_name }} </div>
+                        <div class="col-4"> {{ $owner = $car->owner_name == NULL ? 'Нет владельца' : $car->owner_name }} </div>
                         <div class="col-2">
                             <a href="/car-update/{{ $car->id }}">
                                 <button type="button" class="btn btn-light">Редактировать</button>
@@ -95,34 +95,6 @@
         margin: auto;
         margin-top: 10px;
 
-    }
-
-    .text-item {
-        padding: 0 20px 0 20px;
-    }
-
-    .icon-item {
-        padding: 0 10px 0 10px;
-    }
-
-    .list-container {
-        margin-top: 50px;
-        width: 70%;
-        margin: auto;
-    }
-
-    .icon-container {
-        width: 20%;
-        display: flex;
-        float: right;
-        margin: 15px 0 15px 300px;
-    }
-
-    .text-container {
-        display: flex;
-        width: 80%;
-        float: left;
-        margin: 25px 0 25px 60px;
     }
 
     .title-container {

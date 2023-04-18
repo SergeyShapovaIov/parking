@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('color_bodywork');
             $table->string('rf_license_number')->unique();
             $table->boolean('status');
-            $table->foreignId('client_id')->constrained('client');
+            $table->foreignId('client_id')->nullable()->constrained('client')->nullOnDelete();
         });
     }
 
