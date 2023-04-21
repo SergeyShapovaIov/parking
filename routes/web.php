@@ -25,6 +25,7 @@ Route::get('/add-car', [ViewController::class, 'addCar'])->name('add-car');
 Route::get('/parking-congestion', [ViewController::class, 'parkingCongestion'])->name('parking-congestion');
 Route::get('/client-update/{client_id}', [ViewController::class, 'clientUpdateById'])->name('client-update')->whereNumber('client_id');
 Route::get('/car-update/{car_id}', [ViewController::class, 'carUpdateById'])->name('car-update')->whereNumber('car_id');
+Route::get('/car-update-without_owner/', [ViewController::class, 'carUpdateWithoutOwner'])->name('car-update-without-owner');
 
 Route::prefix('client')->group(function() {
     Route::get('getAll', [ClientController::class, 'getAll'])->name('client.getAll');
@@ -45,5 +46,6 @@ Route::prefix('car')->group(function() {
     Route::get('by-id-client/{id}', [CarController::class, 'getByIdClient'])->name('car.byIdClient')->whereNumber('id');
     Route::post('update-status/add', [CarController::class, 'upStatusByCarId'])->name('car.update-status.add');
     Route::post('update-status/delete', [CarController::class, 'downStatusByCarId'])->name('car.update-status.delete');
+    Route::post('updateOwner', [CarController::class, 'updateOwner'])->name('car.update-owner');
 });
 

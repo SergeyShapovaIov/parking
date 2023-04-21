@@ -1,6 +1,5 @@
 @extends('base')
 @section('content')
-
 <div class="mt-5 col-lg-6 offset-lg-3">
     @if ($errors->any())
     <div class="alert alert-danger">
@@ -19,7 +18,7 @@
             </div>
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">ФИО</label>
-                <input name="name" class="form-control" type="text" placeholder="Иванов Иван Иванович">
+                <input name="name" class="form-control" type="text" placeholder="Иванов Иван Иванович" value="{{ session('name') }}">
             </div>
             <div class="invalid-feedback">
                 Имя введено некорректно
@@ -42,19 +41,8 @@
             </div>
 
             <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Адресс</label>
+                <label for="exampleInputEmail1" class="form-label">Адрес</label>
                 <input name="address" class="form-control" type="text" placeholder="Волгоград, ул.Советская, 34">
-            </div>
-            <div class="mb-3">
-                <label for="disabledSelect" class="form-label">Машина</label>
-                <select name="car_id" id="disabledSelect" class="form-select">
-
-                    @foreach ($cars as $car)
-                    <option value="{{ $car->id }}"> {{ $car->brand }} {{ $car->model }} {{ $car->rf_license_number }}
-                    </option>
-                    @endforeach
-
-                </select>
             </div>
             <button type="submit" class="btn btn-primary">Отправить</button>
         </div>

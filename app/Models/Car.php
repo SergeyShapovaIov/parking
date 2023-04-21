@@ -11,7 +11,7 @@ class Car extends Model
     static function getCarWithOwner ($number_page) 
     {
         return DB::table('car')
-            ->join('client', 'client_id', 'client.id')
+            ->leftjoin('client', 'client_id', 'client.id')
             ->select('car.id', 'brand','rf_license_number','model', 'client.name as owner_name')
             ->skip(($number_page-1) * 10)
             ->take(10)->get();
@@ -59,9 +59,9 @@ class Car extends Model
     static function getPaginatedCarOnParking($number_page) 
     {
         return DB::table('car')
-        ->join('client', 'client_id', 'client.id')
+        ->leftjoin('client', 'client_id', 'client.id')
         ->select('car.id', 'brand','rf_license_number','model', 'client.name as owner_name')
-        ->where('status', 1)
+        ->where('status', "1")
         ->skip(($number_page-1) * 10)
         ->take(10)->get();
     }
@@ -70,7 +70,7 @@ class Car extends Model
     {
         return DB::table('car')
             ->where('client_id', $id)
-            ->where('status', 0)
+            ->where('status', "0")
             ->get();
     }
 
@@ -80,12 +80,12 @@ class Car extends Model
 
             DB::table('car')
             ->where('id', $id)
-            ->update(['status' => 1]);
+            ->update(['status' => "1"]);
 
         } else {
             DB::table('car')
             ->where('id', $id)
-            ->update(['status' => 0]);
+            ->update(['status' => "0"]);
         }
 
     }
@@ -127,5 +127,11 @@ class Car extends Model
             'client_id' => $client_id
         ]);
     }
+
+    static function getById($id)
+    {
+        return DB::table('car')->where('id', $id)->first();
+    }
+
 }
 

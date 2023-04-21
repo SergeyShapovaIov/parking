@@ -17,7 +17,6 @@ class ClientController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'car_id' => 'required',
             'name' => 'required|max:255',
             'gender' => 'required',
             'phone_number' => 'required|size:11',
@@ -26,7 +25,6 @@ class ClientController extends Controller
 
         try {
             $id = Client::store($validated['name'], $validated['gender'], $validated['phone_number'], $validated['address']);
-            Car::updateOwnerByID($id, $validated['car_id']);
         } catch (\Exception $exception) {
 
             return redirect('add-client')->with('message', $exception->getMessage());

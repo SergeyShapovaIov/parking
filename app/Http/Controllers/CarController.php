@@ -25,7 +25,7 @@ class CarController extends Controller
                 $validated['model'],
                 $validated['color_bodywork'],
                 $validated['rf_license_number'],
-                $status = isset($validated['status']) ? 1 : 0,
+                $status = isset($validated['status']) ? "1" : "0",
                 $client = isset($validated['client_id']) ? $validated['client_id'] : NULL,
             );
         } catch (\Exception $exception) {
@@ -52,13 +52,18 @@ class CarController extends Controller
                 $validated['model'],
                 $validated['color_bodywork'],
                 $validated['rf_license_number'],
-                $status = isset($validated['status']) ? 1 : 0,
+                $status = isset($validated['status']) ? "1" : "0",
                 $validated['car_id'],
             );
         } catch (\Exception) {
 
         }
 
+        $owner = Car::getOwnerByIdCar($validated['car_id']);
+
+        if($owner == null) {
+            return redirect('/car-update/'.$validated['car_id']);
+        }
         return redirect('/client-update/'.Car::getOwnerByIdCar($validated['car_id']));
     }
 
@@ -92,7 +97,6 @@ class CarController extends Controller
         $validated = $request->validate([
             'car_id' => 'required|min:0|numeric'
         ]);
-
         Car::updateStatusByCarId($validated['car_id'], 'delete');
 
         return redirect('parking-congestion');
@@ -109,5 +113,17 @@ class CarController extends Controller
         Car::updateStatusByCarId($validated['car_id'], 'add');
 
         return redirect('parking-congestion');
+    }
+
+    public function updateOwner(Request $request)
+    {
+        $validated = $request->validate([
+            'car_id' => 'required|min:0|numeric',
+            'client_id'=> 'required'
+        ]);
+
+        Car::updateOwnerByID($validated['client_id'], $validated['car_id']);
+
+        return redirect('client-update/'.$validated['client_id']);
     }
 }
