@@ -64,7 +64,7 @@ class ViewController extends Controller
         return view('add-client');
     }
 
-    public function addCar()
+    public function addCar(Request $request)
     {
         return view('add-car', [
                 'clients' => Client::getAll()]

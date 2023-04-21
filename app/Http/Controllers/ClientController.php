@@ -26,11 +26,14 @@ class ClientController extends Controller
         try {
             $id = Client::store($validated['name'], $validated['gender'], $validated['phone_number'], $validated['address']);
         } catch (\Exception $exception) {
-
+            session()->flash('name', $validated['name']);
+            session()->flash('gender', $validated['gender']);
+            session()->flash('phone_number', $validated['phone_number']);
+            session()->flash('address', $validated['address']);
             return redirect('add-client')->with('message', $exception->getMessage());
         }
 
-        return redirect('/add-client');
+        return redirect('/client-list');
     }
 
     public function show()

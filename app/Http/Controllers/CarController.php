@@ -29,6 +29,12 @@ class CarController extends Controller
                 $client = isset($validated['client_id']) ? $validated['client_id'] : NULL,
             );
         } catch (\Exception $exception) {
+            session()->flash('client_id', $validated['client_id']);
+            session()->flash('brand', $validated['brand']);
+            session()->flash('model', $validated['model']);
+            session()->flash('color_bodywork', $validated['color_bodywork']);
+            session()->flash('status', isset($validated['status']) ? "1" : "0");
+            session()->flash('rf_license_number', $validated['rf_license_number']);
             return redirect('add-car')->with('message', $exception->getMessage());
         }
 
