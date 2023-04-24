@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\DB;
 
 class Car extends Model
 {
+    static function getAll()
+    {
+        return DB::table('car')->get();
+    }
     static function getCarWithOwner ($number_page) 
     {
         return DB::table('car')
@@ -46,7 +50,7 @@ class Car extends Model
             DB::table('car')->where('id', $id)->delete();
 
         } else {
-            throw new \Exception;
+            throw new \Exception ("Автомобиль с ID = ".$id." не существует");
         }
     }
 
@@ -95,18 +99,30 @@ class Car extends Model
         return DB::table('car')->where('client_id', $id)->get();
     }
 
-    static function updateById($brand, $model, $color_bodywork, $rf_license_number, $status, $car_id)
+    static function updateById($brand, $model, $color_bodywork, $rf_license_number, $status, $car_id, $client_id)
     {
 
-        DB::table('car')
-            ->where('id', $car_id)
-            ->update([
-                'brand' => $brand,
-                'model' => $model,
-                'color_bodywork'=> $color_bodywork,
-                'rf_license_number' => $rf_license_number,
-                'status' => $status
-            ]);
+        if(DB::table('car')->where('id', $car_id)->exists()) {
+
+            if(!DB::table('car')->where('rf_license_number', $rf_license_number)->exists()) {
+
+                DB::table('car')
+                ->where('id', $car_id)
+                ->update([
+                    'brand' => $brand,
+                    'model' => $model,
+                    'color_bodywork'=> $color_bodywork,
+                    'rf_license_number' => $rf_license_number,
+                    'status' => $status,
+                    'client_id' => $client_id
+                ]);
+            } else {
+                throw new \Exception("Автомобиль с Госномером: ". $rf_license_number. " уже существует");
+            }
+        } else {
+            throw new \Exception("Автомобиль с ID = ".$car_id." не существует");
+        }
+
     }
 
     static function getOwnerByIdCar($car_id)

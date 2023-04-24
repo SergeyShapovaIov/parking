@@ -15,7 +15,7 @@ use \App\Http\Controllers\Api\CarController;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    return $request->input();
 });
 
 Route::prefix('cars')->group( function () {
@@ -24,5 +24,5 @@ Route::prefix('cars')->group( function () {
     Route::post('/', [CarController::class, 'store'])->name('api.car.store');
     Route::delete('/{id}', [CarController::class, 'deleteById'])->name('api.car.delete-by-id')->whereNumber('id');
     Route::delete('/owner/{id}', [CarController::class, 'deleteByOwnerId'])->name('api.car.delete-by-owner-id');
-    Route::put('/{id}', [CarController::class, 'update'])->name('api.car.update');
+    Route::put('/{id}', [CarController::class, 'update'])->name('api.car.update')->whereNumber('id');
 });
