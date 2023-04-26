@@ -2,22 +2,18 @@
 
 namespace App\Http\Controllers\Api;
 
-
 use App\Exceptions\InputNotValidException;
 use App\Http\Controllers\Controller;
 use App\Models\Client;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\Car;
-use Mockery\Exception;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Validator;
-use function MongoDB\BSON\toJSON;
-use function PHPUnit\Framework\throwException;
-
 
 class CarController extends Controller
 {
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         try {
 
@@ -27,14 +23,7 @@ class CarController extends Controller
                 $this->checkExistUserBuId($validated['client_id']);
             }
 
-            $id = Car::store(
-                $validated['brand'],
-                $validated['model'],
-                $validated['color_bodywork'],
-                $validated['rf_license_number'],
-                $validated['status'],
-                $client = isset($validated['client_id']) ? $validated['client_id'] : NULL,
-            );
+            $id = Car::store($validated);
 
         } catch (InputNotValidException $exception) {
 
@@ -55,7 +44,7 @@ class CarController extends Controller
             'update_car' => Car::getById($id)], 200);
     }
 
-    public function getAll()
+    public function getAll(): mixed
     {
         try {
 
@@ -69,7 +58,7 @@ class CarController extends Controller
         return response($cars->toJson(), 200)->header('Content-Type', 'application/json');
     }
 
-    public function getByFilter(Request $request)
+    public function getByFilter(Request $request): mixed
     {
         try {
             $filterParams = $this->validateFilterParams($request);
@@ -82,7 +71,7 @@ class CarController extends Controller
         return response($cars->toJson(), 200)->header('Content-Type', 'application/json');
     }
 
-    public function deleteById(Request $request, $id)
+    public function deleteById(Request $request, $id): JsonResponse
     {
         $validated = validator($request->route()->parameters(), [
 
@@ -105,7 +94,10 @@ class CarController extends Controller
 
     }
 
-    public function deleteByOwnerId(Request $request, $id)
+    /**
+     * @throws ValidationException
+     */
+    public function deleteByOwnerId(Request $request, $id): JsonResponse
     {
 
         $validated = validator($request->route()->parameters(), [
@@ -127,7 +119,7 @@ class CarController extends Controller
             'message' => "Cars with ID = " . implode(", ", $idList) . " successfully deleted"], 200);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): JsonResponse
     {
 
         try {
@@ -138,16 +130,7 @@ class CarController extends Controller
                 $this->checkExistUserBuId($validated['client_id']);
             }
 
-            Car::updateById(
-                $validated['brand'],
-                $validated['model'],
-                $validated['color_bodywork'],
-                $validated['rf_license_number'],
-                $status = isset($validated['status']) ? "1" : "0",
-                $id,
-                $client_id = isset($validated['client_id']) ? $validated['client_id'] : NULL
-            );
-            
+            Car::updateById($validated, $id);
 
         } catch (InputNotValidException $exception) {
 
@@ -172,7 +155,7 @@ class CarController extends Controller
     /**
      * @throws InputNotValidException
      */
-    private function validateInputParams(Request $request)
+    private function validateInputParams(Request $request): array
     {
         $validator = Validator::make($request->all(), [
             'client_id' => 'numeric',
@@ -191,7 +174,7 @@ class CarController extends Controller
         return $validator->valid();
     }
 
-    private function validateFilterParams($params)
+    private function validateFilterParams($params): array
     {
         $validated = ['brand', 'model', 'color_bodywork', 'status', 'rf_license_number', 'client_id'];
 
@@ -208,16 +191,13 @@ class CarController extends Controller
     /**
      * @throws \Exception
      */
-    private function checkExistUserBuId($id)
+    private function checkExistUserBuId($id): void
     {
         $status = Client::checkExistUserById($id);
 
-        if($status) {
-            return $status;
-        } else {
+        if(!$status) {
             throw new \Exception("Client with ID = " .$id." does not exist");
         }
-
     }
 
 }

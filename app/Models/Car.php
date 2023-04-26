@@ -2,18 +2,18 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class Car extends Model
 {
-    static function getAll()
+    static function getAll(): Collection
     {
         return DB::table('car')->get();
     }
 
-    static function getCarWithOwner($number_page)
+    static function getCarWithOwner($number_page): Collection
     {
         return DB::table('car')
             ->leftjoin('client', 'client_id', 'client.id')
@@ -22,7 +22,7 @@ class Car extends Model
             ->take(10)->get();
     }
 
-    static function getByFilter($params)
+    static function getByFilter($params): Collection
     {
         return DB::table('car')
             ->where([
@@ -35,18 +35,30 @@ class Car extends Model
             ])->get();
     }
 
-    static function pageCount($row_on_page)
+    static function pageCount($row_on_page): int
     {
         $count_page = DB::table('car')->count('id');
         return ceil($count_page / $row_on_page);
     }
 
-    static function store($brand, $model, $color_bodywork, $rf_license_number, $status, $client_id)
+    /**
+     * @throws \Exception
+     */
+    static function store($params): int
     {
+
+        $brand = $params['brand'];
+        $model = $params['model'];
+        $color_bodywork = $params['color_bodywork'];
+        $rf_license_number = $params['rf_license_number'];
+        $status = $params['status'];
+        $client_id = $params['client_id'] ?? NULL;
+
         if (DB::table('car')->where('rf_license_number', $rf_license_number)->exists()) {
             throw new \Exception("A car with a license plate: " . $rf_license_number . " already exists");
 
         } else {
+
             $id = DB::table('car')->insertGetId([
                 'brand' => $brand,
                 'model' => $model,
@@ -55,12 +67,16 @@ class Car extends Model
                 'status' => $status,
                 'client_id' => $client_id
             ]);
+
         }
 
         return $id;
     }
 
-    static function deleteById($id)
+    /**
+     * @throws \Exception
+     */
+    static function deleteById($id): void
     {
         if (DB::table('car')->where('id', $id)->exists()) {
 
@@ -71,7 +87,10 @@ class Car extends Model
         }
     }
 
-    static function deleteByOwnerId($id)
+    /**
+     * @throws \Exception
+     */
+    static function deleteByOwnerId($id): Collection
     {
         $idList = DB::table('car')->where('client_id', $id)->pluck('id');
 
@@ -86,13 +105,13 @@ class Car extends Model
         return $idList;
     }
 
-    static function pageCountCarOnParking($row_on_page)
+    static function pageCountCarOnParking($row_on_page): int
     {
         $count_page = DB::table('car')->where('status', 1)->count('id');
         return ceil($count_page / $row_on_page);
     }
 
-    static function getPaginatedCarOnParking($number_page)
+    static function getPaginatedCarOnParking($number_page): Collection
     {
         return DB::table('car')
             ->leftjoin('client', 'client_id', 'client.id')
@@ -102,7 +121,7 @@ class Car extends Model
             ->take(10)->get();
     }
 
-    static function getByIdClientNotParking($id)
+    static function getByIdClientNotParking($id): Collection
     {
         return DB::table('car')
             ->where('client_id', $id)
@@ -110,7 +129,7 @@ class Car extends Model
             ->get();
     }
 
-    static function updateStatusByCarId($id, $action)
+    static function updateStatusByCarId($id, $action): void
     {
         if ($action == 'add') {
 
@@ -126,13 +145,25 @@ class Car extends Model
 
     }
 
-    static function getByIdClient($id)
+    static function getByIdClient($id): Collection
     {
         return DB::table('car')->where('client_id', $id)->get();
     }
 
-    static function updateById($brand, $model, $color_bodywork, $rf_license_number, $status, $car_id, $client_id)
+    /**
+     * @throws \Exception
+     */
+    static function updateById($params, $id): void
     {
+
+        $brand = $params['brand'];
+        $model = $params['model'];
+        $color_bodywork = $params['color_bodywork'];
+        $rf_license_number = $params['rf_license_number'];
+        $status = isset($params['status']) ? 1 : 0;
+        $car_id = $id;
+        $client_id = $params['client_id'] ?? NULL;
+
 
         if (DB::table('car')->where('id', $car_id)->exists()) {
 
@@ -167,7 +198,7 @@ class Car extends Model
         return DB::table('car')->where('client_id', NULL)->get();
     }
 
-    static function updateOwnerByID($client_id, $car_id)
+    static function updateOwnerByID($client_id, $car_id): void
     {
         DB::table('car')
             ->where('id', $car_id)
@@ -176,7 +207,7 @@ class Car extends Model
             ]);
     }
 
-    static function getById($id)
+    static function getById($id): object|null
     {
         return DB::table('car')->where('id', $id)->first();
     }
