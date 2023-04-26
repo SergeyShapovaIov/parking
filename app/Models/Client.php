@@ -77,4 +77,9 @@ class Client extends Model
                 'address' => $address,
             ]);
     }
+
+    static function checkExistUserById($id)
+    {
+        return DB::table('client')->where('id', $id)->exists();
+    }
 }

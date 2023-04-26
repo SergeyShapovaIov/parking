@@ -44,7 +44,8 @@ class Car extends Model
     static function store($brand, $model, $color_bodywork, $rf_license_number, $status, $client_id)
     {
         if (DB::table('car')->where('rf_license_number', $rf_license_number)->exists()) {
-            throw new \Exception("A car with this number already exists");
+            throw new \Exception("A car with a license plate: " . $rf_license_number . " already exists");
+
         } else {
             $id = DB::table('car')->insertGetId([
                 'brand' => $brand,

@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Api;
 
 use App\Exceptions\InputNotValidException;
 use App\Http\Controllers\Controller;
+use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Models\Car;
 use Mockery\Exception;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Validator;
 use function MongoDB\BSON\toJSON;
+use function PHPUnit\Framework\throwException;
 
 
 class CarController extends Controller
@@ -20,6 +22,11 @@ class CarController extends Controller
         try {
 
             $validated = $this->validateInputParams($request);
+
+            if(array_key_exists('client_id', $validated)) {
+                $this->checkExistUserBuId($validated['client_id']);
+            }
+
             $id = Car::store(
                 $validated['brand'],
                 $validated['model'],
@@ -127,6 +134,10 @@ class CarController extends Controller
 
             $validated = $this->validateInputParams($request);
 
+            if(array_key_exists('client_id', $validated)) {
+                $this->checkExistUserBuId($validated['client_id']);
+            }
+
             Car::updateById(
                 $validated['brand'],
                 $validated['model'],
@@ -134,8 +145,10 @@ class CarController extends Controller
                 $validated['rf_license_number'],
                 $status = isset($validated['status']) ? "1" : "0",
                 $id,
-                $client_id = $validated['client_id']
+                $client_id = isset($validated['client_id']) ? $validated['client_id'] : NULL
             );
+            
+
         } catch (InputNotValidException $exception) {
 
             $errors = json_decode($exception->getMessage());
@@ -162,7 +175,7 @@ class CarController extends Controller
     private function validateInputParams(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'client_id' => 'required|numeric',
+            'client_id' => 'numeric',
             'brand' => 'required|max:255',
             'model' => 'required|max:255',
             'color_bodywork' => 'required|max:255',
@@ -190,6 +203,21 @@ class CarController extends Controller
         $validated['client_id'] = $params['client_id'] ?? '%';
 
         return $validated;
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private function checkExistUserBuId($id)
+    {
+        $status = Client::checkExistUserById($id);
+
+        if($status) {
+            return $status;
+        } else {
+            throw new \Exception("Client with ID = " .$id." does not exist");
+        }
+
     }
 
 }
