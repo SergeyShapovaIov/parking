@@ -22,7 +22,7 @@ class CarController extends Controller
                 $validated['model'],
                 $validated['color_bodywork'],
                 $validated['rf_license_number'],
-                $status = isset($validated['status']) ? "1" : "0",
+                $validated['status'],
                 $client = isset($validated['client_id']) ? $validated['client_id'] : NULL,
             );
 
@@ -138,13 +138,12 @@ class CarController extends Controller
     private function validateInputParams(Request $request)
     {
         try {
-
             $validated = $request->validate([
                 'client_id' => 'required',
                 'brand' => 'required|max:255',
                 'model' => 'required|max:255',
                 'color_bodywork' => 'required|max:255',
-                'status' => 'nullable',
+                'status' => 'required|max:1|min:0|numeric',
                 'rf_license_number' => 'required|max:9'
             ]);
         } catch (\Exception $exception) {
