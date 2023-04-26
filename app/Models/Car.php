@@ -44,7 +44,7 @@ class Car extends Model
     static function store($brand, $model, $color_bodywork, $rf_license_number, $status, $client_id)
     {
         if (DB::table('car')->where('rf_license_number', $rf_license_number)->exists()) {
-            throw new \Exception("Машина с таким номером уже существует");
+            throw new \Exception("A car with this number already exists");
         } else {
             $id = DB::table('car')->insertGetId([
                 'brand' => $brand,
@@ -66,7 +66,7 @@ class Car extends Model
             DB::table('car')->where('id', $id)->delete();
 
         } else {
-            throw new \Exception ("Автомобиль с ID = " . $id . " не существует");
+            throw new \Exception ("Car with ID = " . $id . " does not exist");
         }
     }
 
@@ -79,7 +79,7 @@ class Car extends Model
             DB::table('car')->where('client_id', $id)->delete();
 
         } else {
-            throw new \Exception ("У клиента с ID = " . $id . " нет автомобилей");
+            throw new \Exception ("A customer with an ID = " . $id . " no cars");
         }
 
         return $idList;
@@ -148,10 +148,10 @@ class Car extends Model
                         'client_id' => $client_id
                     ]);
             } else {
-                throw new \Exception("Автомобиль с Госномером: " . $rf_license_number . " уже существует");
+                throw new \Exception("A car with a license plate: " . $rf_license_number . " already exists");
             }
         } else {
-            throw new \Exception("Автомобиль с ID = " . $car_id . " не существует");
+            throw new \Exception("A cra with ID = " . $car_id . " does not exist");
         }
 
     }
