@@ -1,4 +1,4 @@
-@extends('base')
+@extends('app')
 @section('content')
 <div class="title-container">
     <h2> Список автомобилей </h2>
@@ -73,7 +73,7 @@
                                 @endfor
                             @endif
                         @endif
-                        
+
                         <li class="page-item @if($pageNumber == $pageCount) disabled @endif"><a class="page-link" href="/car-list?page={{$pageNumber+1}}">Next</a></li>
                     </ul>
                 </nav>
