@@ -1,4 +1,4 @@
-@extends('base')
+@extends('layouts.app')
 @section('content')
 <div class="mt-5">
     <form class="col-lg-6 offset-lg-3" method="post" action="car/create">

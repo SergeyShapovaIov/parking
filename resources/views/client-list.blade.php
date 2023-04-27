@@ -1,4 +1,4 @@
-@extends('base')
+@extends('layouts.app')
 @section('content')
 <div class="title-container">
     <h2> Все клиенты </h2>
@@ -72,7 +72,7 @@
                                 @endfor
                             @endif
                         @endif
-                        
+
                         <li class="page-item @if($pageNumber == $pageCount) disabled @endif"><a class="page-link" href="/client-list?page={{$pageNumber+1}}">Next</a></li>
                     </ul>
                 </nav>

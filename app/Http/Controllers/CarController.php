@@ -38,7 +38,7 @@ class CarController extends Controller
             return redirect('add-car')->with('message', $exception->getMessage());
         }
 
-        return redirect('');
+        return redirect('/car-list');
     }
 
     public function update(Request $request)
