@@ -8,22 +8,24 @@ use Illuminate\Support\Facades\DB;
 
 class Car extends Model
 {
-    static function getCarWithOwner ($number_page) 
+    static function getCarWithOwner ($number_page, $sort)
     {
+
         return DB::table('car')
             ->leftjoin('client', 'client_id', 'client.id')
             ->select('car.id', 'brand','rf_license_number','model', 'client.name as owner_name')
             ->skip(($number_page-1) * 10)
+            ->orderBy($sort)
             ->take(10)->get();
     }
 
-    static function pageCount($row_on_page) 
+    static function pageCount($row_on_page)
     {
         $count_page = DB::table('car')->count('id');
         return ceil($count_page/$row_on_page);
     }
 
-    static function store($brand, $model, $color_bodywork, $rf_license_number, $status, $client_id) 
+    static function store($brand, $model, $color_bodywork, $rf_license_number, $status, $client_id)
     {
         if(DB::table('car')->where('rf_license_number', $rf_license_number)->exists()) {
             throw new \Exception("Машина с таким номером уже существует");
@@ -39,7 +41,7 @@ class Car extends Model
         }
     }
 
-    static function deleteById($id) 
+    static function deleteById($id)
     {
         if(DB::table('car')->where('id', $id)->exists()) {
 
@@ -50,13 +52,13 @@ class Car extends Model
         }
     }
 
-    static function pageCountCarOnParking($row_on_page) 
+    static function pageCountCarOnParking($row_on_page)
     {
         $count_page = DB::table('car')->where('status', 1)->count('id');
         return ceil($count_page/$row_on_page);
     }
 
-    static function getPaginatedCarOnParking($number_page) 
+    static function getPaginatedCarOnParking($number_page)
     {
         return DB::table('car')
         ->leftjoin('client', 'client_id', 'client.id')

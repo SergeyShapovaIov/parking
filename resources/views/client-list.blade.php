@@ -12,6 +12,19 @@
                 </a>
             </div>
         </div>
+
+        <div class="btn-group mx-2 mt-3">
+            <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                Сортировать по
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#"> ФИО </a></li>
+                <li><a class="dropdown-item" href="#"> Пол </a></li>
+                <li><a class="dropdown-item" href="#"> Телефон </a></li>
+                <li><a class="dropdown-item" href="#"> Адрес </a></li>
+            </ul>
+        </div>
+
         <div class="mt-5">
             @foreach ($clients as $client)
             <div class="item-container">
@@ -72,7 +85,7 @@
                                 @endfor
                             @endif
                         @endif
-                        
+
                         <li class="page-item @if($pageNumber == $pageCount) disabled @endif"><a class="page-link" href="/client-list?page={{$pageNumber+1}}">Next</a></li>
                     </ul>
                 </nav>

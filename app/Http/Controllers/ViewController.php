@@ -20,9 +20,11 @@ class ViewController extends Controller
         $pageCount = $pageCount == 0 ? 1 : $pageCount;
 
         $validated = $request->validate([
-            'page' => 'nullable|integer|min:1|max:255'
+            'page' => 'nullable|integer|min:1|max:255',
+            'sort' => 'nullable|max:20'
         ]);
 
+        $sort = $validated['sort'] ?? 'brand';
         $page = $validated['page'] ?? 1;
 
         if ($page > $pageCount) {
@@ -30,7 +32,7 @@ class ViewController extends Controller
         }
 
         return view('car-list', [
-            'cars' => Car::getCarWithOwner($page),
+            'cars' => Car::getCarWithOwner($page, $sort),
             'pageCount' => $pageCount,
             'pageNumber' => $page
         ]);

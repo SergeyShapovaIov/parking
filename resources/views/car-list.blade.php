@@ -12,6 +12,20 @@
                 </a>
             </div>
         </div>
+
+        <div class="btn-group mx-2 mt-3">
+            <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                Сортировать по
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="?sort=brand"> Марка </a></li>
+                <li><a class="dropdown-item" href="?sort=model"> Модель </a></li>
+                <li><a class="dropdown-item" href="?sort=color_bodywork"> Цвет кузова</a></li>
+                <li><a class="dropdown-item" href="?sort=rf_license_number"> Гос номер РФ</a></li>
+                <li><a class="dropdown-item" href="?sort=status"> Нахождение на парковке</a></li>
+            </ul>
+        </div>
+
         <div class="mt-5">
             @foreach ($cars as $car)
             <div class="item-container">
@@ -73,7 +87,7 @@
                                 @endfor
                             @endif
                         @endif
-                        
+
                         <li class="page-item @if($pageNumber == $pageCount) disabled @endif"><a class="page-link" href="/car-list?page={{$pageNumber+1}}">Next</a></li>
                     </ul>
                 </nav>
