@@ -102,10 +102,19 @@ class ViewController extends Controller
         $pageCount = $pageCount == 0 ? 1 : $pageCount;
 
         $validated = $request->validate([
+            'sort' => 'nullable|max:20',
             'page' => 'nullable|integer|min:1|max:255'
         ]);
 
+        $sort = $validated['sort'] ?? 'owner_name';
         $page = $validated['page'] ?? 1;
+
+        $validSortParams = ['brand', 'rf_license_number', 'model', 'owner_name'];
+        $statusSearch = array_search($sort, $validSortParams);
+
+        if(!$statusSearch && $statusSearch !== 0) {
+            return redirect()->route('parking-congestion', ['page' => $pageCount, 'sort' => 'owner_name']);
+        }
 
         if ($page > $pageCount) {
             return redirect()->route('parking-congestion', ['page' => $pageCount]);
@@ -114,10 +123,11 @@ class ViewController extends Controller
         $clients = Client::getAll();
 
         return view('parking-congestion', [
-            'cars' => Car::getPaginatedCarOnParking($page),
+            'cars' => Car::getPaginatedCarOnParking($page, $sort),
             'clients' => $clients,
             'pageCount' => $pageCount,
-            'pageNumber' => $page
+            'pageNumber' => $page,
+            'sort' => $sort
         ]);
     }
 

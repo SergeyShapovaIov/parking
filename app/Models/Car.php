@@ -8,13 +8,13 @@ use Illuminate\Support\Facades\DB;
 
 class Car extends Model
 {
-    static function getCarWithOwner ($number_page, $sort)
+    static function getCarWithOwner($number_page, $sort)
     {
 
         return DB::table('car')
             ->leftjoin('client', 'client_id', 'client.id')
-            ->select('car.id', 'brand','rf_license_number','model', 'client.name as owner_name')
-            ->skip(($number_page-1) * 10)
+            ->select('car.id', 'brand', 'rf_license_number', 'model', 'client.name as owner_name')
+            ->skip(($number_page - 1) * 10)
             ->orderBy($sort)
             ->take(10)->get();
     }
@@ -22,12 +22,12 @@ class Car extends Model
     static function pageCount($row_on_page)
     {
         $count_page = DB::table('car')->count('id');
-        return ceil($count_page/$row_on_page);
+        return ceil($count_page / $row_on_page);
     }
 
     static function store($brand, $model, $color_bodywork, $rf_license_number, $status, $client_id)
     {
-        if(DB::table('car')->where('rf_license_number', $rf_license_number)->exists()) {
+        if (DB::table('car')->where('rf_license_number', $rf_license_number)->exists()) {
             throw new \Exception("Машина с таким номером уже существует");
         } else {
             DB::table('car')->insert([
@@ -43,7 +43,7 @@ class Car extends Model
 
     static function deleteById($id)
     {
-        if(DB::table('car')->where('id', $id)->exists()) {
+        if (DB::table('car')->where('id', $id)->exists()) {
 
             DB::table('car')->where('id', $id)->delete();
 
@@ -55,17 +55,20 @@ class Car extends Model
     static function pageCountCarOnParking($row_on_page)
     {
         $count_page = DB::table('car')->where('status', 1)->count('id');
-        return ceil($count_page/$row_on_page);
+        return ceil($count_page / $row_on_page);
     }
 
-    static function getPaginatedCarOnParking($number_page)
+    static function getPaginatedCarOnParking($number_page, $sort)
     {
         return DB::table('car')
-        ->leftjoin('client', 'client_id', 'client.id')
-        ->select('car.id', 'brand','rf_license_number','model', 'client.name as owner_name')
-        ->where('status', "1")
-        ->skip(($number_page-1) * 10)
-        ->take(10)->get();
+
+            ->leftjoin('client', 'client_id', 'client.id')
+            ->select('car.id', 'brand', 'rf_license_number', 'model', 'client.name as owner_name')
+            ->where('status', "1")
+            ->skip(($number_page - 1) * 10)
+            ->orderBy($sort)
+            ->take(10)->get();
+
     }
 
     static function getByIdClientNotParking($id)
@@ -78,16 +81,16 @@ class Car extends Model
 
     static function updateStatusByCarId($id, $action)
     {
-        if($action == 'add') {
+        if ($action == 'add') {
 
             DB::table('car')
-            ->where('id', $id)
-            ->update(['status' => "1"]);
+                ->where('id', $id)
+                ->update(['status' => "1"]);
 
         } else {
             DB::table('car')
-            ->where('id', $id)
-            ->update(['status' => "0"]);
+                ->where('id', $id)
+                ->update(['status' => "0"]);
         }
 
     }
@@ -105,7 +108,7 @@ class Car extends Model
             ->update([
                 'brand' => $brand,
                 'model' => $model,
-                'color_bodywork'=> $color_bodywork,
+                'color_bodywork' => $color_bodywork,
                 'rf_license_number' => $rf_license_number,
                 'status' => $status
             ]);
@@ -126,8 +129,8 @@ class Car extends Model
         DB::table('car')
             ->where('id', $car_id)
             ->update([
-            'client_id' => $client_id
-        ]);
+                'client_id' => $client_id
+            ]);
     }
 
     static function getById($id)

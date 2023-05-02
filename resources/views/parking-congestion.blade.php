@@ -23,7 +23,20 @@
             </div>
             <button type="submit" class="btn btn-primary">Добавить на стоянку</button>
         </div>
-    </form>
+
+
+        <div class="btn-group mx-2 mt-5">
+            <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                Сортировать по
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="?sort=owner_name&page= {{ $pageNumber }}"> Владелец </a></li>
+                <li><a class="dropdown-item" href="?sort=rf_license_number&page= {{ $pageNumber }}"> Гос номер РФ </a></li>
+                <li><a class="dropdown-item" href="?sort=model&page= {{ $pageNumber }}"> Модель </a></li>
+                <li><a class="dropdown-item" href="?sort=brand&page= {{ $pageNumber }}"> Марка </a></li>
+            </ul>
+        </div>
+
 </div>
 <div class="mt-5">
     <div class="col-lg-6 offset-lg-3">
