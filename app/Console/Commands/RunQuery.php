@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Review;
 use Illuminate\Console\Command;
 
 class RunQuery extends Command
@@ -28,6 +29,14 @@ class RunQuery extends Command
      */
     public function handle()
     {
-        
+        $reviews = Review::getWithParams();
+        dd($reviews);
+        $file = fopen('query-result.csv', 'w');
+        foreach ($reviews as $review) {
+            fputcsv($file, $review, ';');
+        }
+
+        fclose($file);
+
     }
 }
