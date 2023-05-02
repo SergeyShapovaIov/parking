@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ColumnNoExistsCarSortException;
 use Illuminate\Http\Request;
 use App\Models\Client;
 use App\Models\Car;
+use function GuzzleHttp\Promise\all;
 
 class ViewController extends Controller
 {
@@ -15,6 +17,7 @@ class ViewController extends Controller
 
     public function carList(Request $request)
     {
+
         $pageCount = Car::pageCount(10);
 
         $pageCount = $pageCount == 0 ? 1 : $pageCount;
@@ -27,6 +30,14 @@ class ViewController extends Controller
         $sort = $validated['sort'] ?? 'brand';
         $page = $validated['page'] ?? 1;
 
+        $validSortParams = ['brand', 'model', 'color_bodywork', 'rf_license_number', 'status'];
+
+
+        $statusSearch = array_search($sort, $validSortParams);
+        if(!$statusSearch && $statusSearch !== 0) {
+            return redirect()->route('car-list', ['page' => 1, 'sort' => 'brand']);
+        }
+
         if ($page > $pageCount) {
             return redirect()->route('car-list', ['page' => $pageCount]);
         }
@@ -34,7 +45,8 @@ class ViewController extends Controller
         return view('car-list', [
             'cars' => Car::getCarWithOwner($page, $sort),
             'pageCount' => $pageCount,
-            'pageNumber' => $page
+            'pageNumber' => $page,
+            'sort' => $sort
         ]);
     }
 
@@ -45,19 +57,29 @@ class ViewController extends Controller
         $pageCount = $pageCount == 0 ? 1 : $pageCount;
 
         $validated = $request->validate([
+            'sort' => 'nullable|max:20',
             'page' => 'nullable|integer|min:1|max:255'
         ]);
 
+        $sort = $validated['sort'] ?? 'name';
         $page = $validated['page'] ?? 1;
+
+        $validSortParams = ['name', 'gender', 'phone_number', 'address'];
+        $statusSearch = array_search($sort, $validSortParams);
+
+        if(!$statusSearch && $statusSearch !== 0) {
+            return redirect()->route('client-list', ['page' => $pageCount, 'sort' => 'name']);
+        }
 
         if ($page > $pageCount) {
             return redirect()->route('client-list', ['page' => $pageCount]);
         }
 
         return view('client-list', [
-            'clients' => Client::getPaginated($page),
+            'clients' => Client::getPaginated($page, $sort),
             'pageCount' => $pageCount,
-            'pageNumber' => $page
+            'pageNumber' => $page,
+            'sort' => $sort
         ]);
     }
 

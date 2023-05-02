@@ -15,9 +15,12 @@ class Client extends Model
         return $clients;
     }
 
-    static function getPaginated($number_page)
+    static function getPaginated($number_page, $sort)
     {
-        return DB::table('client')->skip(($number_page - 1) * 10)->take(10)->get();
+        return DB::table('client')
+            ->skip(($number_page - 1) * 10)
+            ->orderBy($sort)
+            ->take(10)->get();
     }
 
     static function store($name, $gender, $phone_number, $address)

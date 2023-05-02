@@ -18,10 +18,10 @@
                 Сортировать по
             </button>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#"> ФИО </a></li>
-                <li><a class="dropdown-item" href="#"> Пол </a></li>
-                <li><a class="dropdown-item" href="#"> Телефон </a></li>
-                <li><a class="dropdown-item" href="#"> Адрес </a></li>
+                <li><a class="dropdown-item" href="?sort=name&page= {{ $pageNumber }}"> ФИО </a></li>
+                <li><a class="dropdown-item" href="?sort=gender&page= {{ $pageNumber }}"> Пол </a></li>
+                <li><a class="dropdown-item" href="?sort=phone_number&page= {{ $pageNumber }}"> Телефон </a></li>
+                <li><a class="dropdown-item" href="?sort=address&page= {{ $pageNumber }}"> Адрес </a></li>
             </ul>
         </div>
 
@@ -54,39 +54,39 @@
             <div class="pagination-wrapper">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
-                        <li class="page-item @if($pageNumber == 1) disabled @endif"><a class="page-link" href="/client-list?page={{$pageNumber-1}}">Previous</a></li>
+                        <li class="page-item @if($pageNumber == 1) disabled @endif"><a class="page-link" href="/client-list?page={{$pageNumber-1}}&sort= {{ $sort }}">Previous</a></li>
                         @if($pageCount < 9)
                             @for($i = 1; $i <= $pageCount; $i++)
-                            <li class="page-item @if($i == $pageNumber) active @endif"><a class="page-link" href="/client-list?page= {{ $i }}">{{ $i }}</a></li>
+                            <li class="page-item @if($i == $pageNumber) active @endif"><a class="page-link" href="/client-list?page= {{ $i }}&sort= {{ $sort }}">{{ $i }}</a></li>
                             @endfor
                         @else
 
                             @if($pageNumber <= 9 )
                                 @for($i = 1; $i <=10; $i++)
-                                    <li class="page-item @if($i == $pageNumber) active @endif"><a class="page-link" href="/client-list?page= {{ $i }}">{{ $i }}</a></li>
+                                    <li class="page-item @if($i == $pageNumber) active @endif"><a class="page-link" href="/client-list?page= {{ $i }}&sort= {{ $sort }}">{{ $i }}</a></li>
                                 @endfor
                             @endif
 
                             @if($pageNumber > 9 && $pageNumber <= $pageCount-9)
                                 <li class="page-item @if($pageNumber == 1) active @endif"><a class="page-link" href="/client-list?page= {{ 1 }}">{{ 1 }}</a></li>
                                 <li class="page-item"><a class="page-link" href="#"> ... </a></li>
-                                <li class="page-item"><a class="page-link" href="/client-list?page= {{ $pageNumber - 2 }}">{{ $pageNumber - 2 }}</a></li>
-                                <li class="page-item"><a class="page-link" href="/client-list?page= {{ $pageNumber - 1 }}">{{ $pageNumber - 1 }}</a></li>
-                                <li class="page-item active"><a class="page-link" href="/client-list?page= {{ $pageNumber }}">{{ $pageNumber }}</a></li>
-                                <li class="page-item "><a class="page-link" href="/client-list?page= {{ $pageNumber + 1 }}">{{ $pageNumber + 1 }}</a></li>
-                                <li class="page-item"><a class="page-link" href="/client-list?page= {{ $pageNumber + 2 }}">{{ $pageNumber + 2 }}</a></li>
+                                <li class="page-item"><a class="page-link" href="/client-list?page= {{ $pageNumber - 2 }}&sort= {{ $sort }}">{{ $pageNumber - 2 }}</a></li>
+                                <li class="page-item"><a class="page-link" href="/client-list?page= {{ $pageNumber - 1 }}&sort= {{ $sort }}">{{ $pageNumber - 1 }}</a></li>
+                                <li class="page-item active"><a class="page-link" href="/client-list?page= {{ $pageNumber }}&sort= {{ $sort }}">{{ $pageNumber }}</a></li>
+                                <li class="page-item "><a class="page-link" href="/client-list?page= {{ $pageNumber + 1 }}&sort= {{ $sort }}">{{ $pageNumber + 1 }}</a></li>
+                                <li class="page-item"><a class="page-link" href="/client-list?page= {{ $pageNumber + 2 }}&sort= {{ $sort }}">{{ $pageNumber + 2 }}</a></li>
                                 <li class="page-item"><a class="page-link" href="#"> ... </a></li>
                                 <li class="page-item @if($pageNumber == $pageCount) active @endif"><a class="page-link" href="/client-list?page= {{ $pageCount }}">{{ $pageCount }}</a></li>
                             @endif
 
                             @if($pageNumber > 9 && $pageNumber > $pageCount -9)
                             @for($i = $pageCount-9; $i <= $pageCount; $i++)
-                                    <li class="page-item @if($i == $pageNumber) active @endif"><a class="page-link" href="/client-list?page= {{ $i }}">{{ $i }}</a></li>
+                                    <li class="page-item @if($i == $pageNumber) active @endif"><a class="page-link" href="/client-list?page= {{ $i }}&sort= {{ $sort }}">{{ $i }}</a></li>
                                 @endfor
                             @endif
                         @endif
 
-                        <li class="page-item @if($pageNumber == $pageCount) disabled @endif"><a class="page-link" href="/client-list?page={{$pageNumber+1}}">Next</a></li>
+                        <li class="page-item @if($pageNumber == $pageCount) disabled @endif"><a class="page-link" href="/client-list?page={{$pageNumber+1}}&sort= {{ $sort }}">Next</a></li>
                     </ul>
                 </nav>
             </div>
