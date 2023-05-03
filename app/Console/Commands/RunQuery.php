@@ -27,16 +27,28 @@ class RunQuery extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
+        $header = ["title", "text", "mark_helpful_review", "product", "buyer"];
+
         $reviews = Review::getWithParams();
-        dd($reviews);
+
         $file = fopen('query-result.csv', 'w');
+
+        fputcsv($file, $header, ';');
+
+        dd($reviews);
         foreach ($reviews as $review) {
+
             fputcsv($file, $review, ';');
         }
 
         fclose($file);
+
+    }
+
+    private function convertArrayInCSVInputData($array) : array
+    {
 
     }
 }
