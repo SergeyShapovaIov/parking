@@ -10,13 +10,7 @@ class Review extends Model
 {
     static function getWithParams()
     {
-//        return DB::table('review')
-//            ->join('buyer', 'buyer_id', 'buyer.id')
-//            ->where('city' ,  'Волгоград')
-//            ->orWhere('city', "Самара")
-//            ->where('mark_helpful_review', '>', 10)
-//            ->get();
-
+        // это нужно декомпозировать поотому что ни один нормальный человек не поймет что это за запрос
         return DB::table('review')
             ->select("mark_helpful_review", "product.title AS product", "buyer.last_name as buyer", "city", "buyer_id")
             ->join('buyer', 'buyer_id', 'buyer.id')
@@ -35,23 +29,30 @@ class Review extends Model
                     ->where('all_mark_reviews', '>', 10);
             })
             ->orWhereIn('buyer_id', function (Builder $query) {
-                
+                $query->select('buyer_id')
+                    ->from(function (Builder $query) {
+                        $query->selectRaw('buyer_id, COUNT(id) as count_review')
+                            ->from(function (Builder $query) {
+                                $query->selectRaw('buyer_id, review.id')
+                                    ->from('review')
+                                    ->join('product', 'product_id', 'product.id')
+                                    ->where('price', '>', 3000)
+                                    ->whereIn('buyer_id', function (Builder $query) {
+                                        $query->select('buyer_id')
+                                            ->from(function (Builder $query) {
+                                                $query->selectRaw('AVG(points) as avg_points, buyer_id')
+                                                    ->from('rating')
+                                                    ->join('product', 'product_id', 'product.id')
+                                                    ->where('price', '>', 3000)
+                                                    ->groupBy('buyer_id');
+                                            })
+                                            ->where('avg_points', '>', 4);
+                                    });
+                            })
+                            ->groupBy('buyer_id');
+                    })
+                    ->where('count_review', '>', 1);
             })
-//            ->groupBy('buyer')
-//            ->havingRaw('SUM(mark_helpful_review) > 10')
             ->get();
-
-//        return DB::table('review')
-//            ->selectRaw('SUM(mark_helpful_review) AS all_mark_reviews, buyer_id')
-//            ->groupBy("buyer_id")
-//            ->where('mark_helpful_review', '>', 10)
-//            ->pluck('buyer_id');
-
-//        return DB::table('review')
-//            ->selectRaw('SUM(mark_helpful_review) as all_mark_reviews, buyer_id')
-//            ->groupBy('buyer_id')
-//            ->get();
-
-
     }
 }
