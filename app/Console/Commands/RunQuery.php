@@ -29,7 +29,7 @@ class RunQuery extends Command
      */
     public function handle(): void
     {
-        $header = ["title", "text", "mark_helpful_review", "product", "buyer"];
+        $header = ["text", "mark_helpful_review", "product", "buyer", "city"];
 
         $reviews = Review::getWithParams();
 
@@ -37,10 +37,10 @@ class RunQuery extends Command
 
         fputcsv($file, $header, ';');
 
-        dd($reviews);
+
         foreach ($reviews as $review) {
 
-            fputcsv($file, $review, ';');
+            fputcsv($file, (array)$review, ';');
         }
 
         fclose($file);
