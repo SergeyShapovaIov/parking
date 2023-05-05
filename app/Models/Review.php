@@ -10,7 +10,17 @@ class Review extends Model
 {
     static function getWithParams()
     {
-        // это нужно декомпозировать поотому что ни один нормальный человек не поймет что это за запрос
+        $arrayWhereBuyersChosenByMark = new Builder();
+
+        $arrayWhereBuyersChosenByMark->select('buyer_id')
+            ->from(function (Builder $query) {
+                $query->selectRaw('SUM(mark_helpful_review) AS all_mark_reviews, buyer_id')
+                    ->from('review')
+                    ->groupBy('buyer_id');
+            })
+            ->where('all_mark_reviews', '>', 10);
+
+
         return DB::table('review')
             ->select("text", "mark_helpful_review", "product.title AS product", "buyer.last_name as buyer", "city")
             ->join('buyer', 'buyer_id', 'buyer.id')
