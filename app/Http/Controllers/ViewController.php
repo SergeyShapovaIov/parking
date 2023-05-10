@@ -182,4 +182,11 @@ class ViewController extends Controller
         ]);
     }
 
+    public function addPage(Request $request)
+    {
+        return view('add-page', [
+            'infoPages' => Page::getAll()
+        ]);
+    }
+
 }

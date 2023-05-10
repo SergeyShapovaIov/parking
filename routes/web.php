@@ -29,6 +29,8 @@ Route::get('/car-update/{car_id}', [ViewController::class, 'carUpdateById'])->na
 Route::get('/car-update-without_owner/', [ViewController::class, 'carUpdateWithoutOwner'])->name('car-update-without-owner');
 Route::get('/admin-panel', [ViewController::class, 'adminPanel'])->name('admin-panel');
 Route::get('/page-update/{page}', [ViewController::class, 'pageUpdate'])->name('page-update')->whereNumber('page');
+Route::get('/add-page', [ViewController::class, 'addPage'])->name('add-page');
+
 
 
 Route::prefix('client')->group(function() {
@@ -54,8 +56,9 @@ Route::prefix('car')->group(function() {
 });
 
 Route::prefix('page')->group(function() {
-    Route::post('create', [PageController::class, 'create'])->name('page.store');
+    Route::post('create', [PageController::class, 'store'])->name('page.store');
     Route::post('update', [PageController::class, 'updateById'])->name('page.update');
     Route::delete('{page}', [PageController::class, 'deleteById'])->name('page.delete')->whereNumber('page');
+    Route::get('/info/{link}', [PageController::class, 'getPageByLink'])->name('info-page');
 });
 

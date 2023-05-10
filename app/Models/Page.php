@@ -18,14 +18,23 @@ class Page extends Model
         return DB::table('page')->where('id', '=', $id)->first();
     }
 
-    static function store()
+    static function getByLink($link)
     {
-
+        return DB::table('page')->where('link', '=', $link)->first();
     }
 
-    static function deleteById()
+    static function store($params)
     {
+        return DB::table('page')->insertGetId([
+            'title' => $params['title'],
+            'text' => $params['text'],
+            'link' => $params['link']
+        ]);
+    }
 
+    static function deleteById($id)
+    {
+        DB::table('page')->where('id', '=', $id)->delete();
     }
 
     static function updateById($params)
