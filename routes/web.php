@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CarController;
@@ -26,6 +27,9 @@ Route::get('/parking-congestion', [ViewController::class, 'parkingCongestion'])-
 Route::get('/client-update/{client_id}', [ViewController::class, 'clientUpdateById'])->name('client-update')->whereNumber('client_id');
 Route::get('/car-update/{car_id}', [ViewController::class, 'carUpdateById'])->name('car-update')->whereNumber('car_id');
 Route::get('/car-update-without_owner/', [ViewController::class, 'carUpdateWithoutOwner'])->name('car-update-without-owner');
+Route::get('/admin-panel', [ViewController::class, 'adminPanel'])->name('admin-panel');
+Route::get('/page-update/{page}', [ViewController::class, 'pageUpdate'])->name('page-update')->whereNumber('page');
+
 
 Route::prefix('client')->group(function() {
     Route::get('getAll', [ClientController::class, 'getAll'])->name('client.getAll');
@@ -47,5 +51,11 @@ Route::prefix('car')->group(function() {
     Route::post('update-status/add', [CarController::class, 'upStatusByCarId'])->name('car.update-status.add');
     Route::post('update-status/delete', [CarController::class, 'downStatusByCarId'])->name('car.update-status.delete');
     Route::post('updateOwner', [CarController::class, 'updateOwner'])->name('car.update-owner');
+});
+
+Route::prefix('page')->group(function() {
+    Route::post('create', [PageController::class, 'create'])->name('page.store');
+    Route::post('update', [PageController::class, 'updateById'])->name('page.update');
+    Route::delete('{page}', [PageController::class, 'deleteById'])->name('page.delete')->whereNumber('page');
 });
 

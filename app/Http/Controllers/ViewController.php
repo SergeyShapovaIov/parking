@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Page;
 use Illuminate\Http\Request;
 use App\Models\Client;
 use App\Models\Car;
@@ -32,12 +33,14 @@ class ViewController extends Controller
         return view('car-list', [
             'cars' => Car::getCarWithOwner($page),
             'pageCount' => $pageCount,
-            'pageNumber' => $page
+            'pageNumber' => $page,
+            'infoPages' => Page::getAll()
         ]);
     }
 
     public function clientList(Request $request)
     {
+
         $pageCount = Client::pageCount(10);
 
         $pageCount = $pageCount == 0 ? 1 : $pageCount;
@@ -55,7 +58,8 @@ class ViewController extends Controller
         return view('client-list', [
             'clients' => Client::getPaginated($page),
             'pageCount' => $pageCount,
-            'pageNumber' => $page
+            'pageNumber' => $page,
+            'infoPages' => Page::getAll()
         ]);
     }
 
@@ -67,7 +71,8 @@ class ViewController extends Controller
     public function addCar(Request $request)
     {
         return view('add-car', [
-                'clients' => Client::getAll()]
+                'clients' => Client::getAll(),
+                'infoPages' => Page::getAll()]
         );
     }
 
@@ -93,7 +98,8 @@ class ViewController extends Controller
             'cars' => Car::getPaginatedCarOnParking($page),
             'clients' => $clients,
             'pageCount' => $pageCount,
-            'pageNumber' => $page
+            'pageNumber' => $page,
+            'infoPages' => Page::getAll()
         ]);
     }
 
@@ -117,7 +123,8 @@ class ViewController extends Controller
         return view('client-update', [
             'client' => $client,
             'clients' => $clients,
-            'cars' => Car::getByIdClient($validated['client_id'])
+            'cars' => Car::getByIdClient($validated['client_id']),
+            'infoPages' => Page::getAll()
         ]);
     }
 
@@ -145,10 +152,34 @@ class ViewController extends Controller
         $validated = $request->validate([
             'car_id' => 'required|min:1'
         ]);
-//        dd(Car::getById($validated['car_id']));
+
         return view('car-update', [
             'car' => Car::getById($validated['car_id']),
             'clients' => Client::getAll(),
+            'infoPages' => Page::getAll()
         ]);
     }
+
+    public function adminPanel(Request $request)
+    {
+        return view('admin-panel', [
+            'infoPages' => Page::getAll()
+        ]);
+    }
+
+    public function pageUpdate(Request $request)
+    {
+
+        $validated = validator($request->route()->parameters(), [
+
+            'page' => 'required|min:1|numeric'
+
+        ])->validate();
+
+        return view('page-update', [
+            'page' => Page::getById($validated['page']),
+            'infoPages' => Page::getAll()
+        ]);
+    }
+
 }
