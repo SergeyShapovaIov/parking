@@ -65,7 +65,9 @@ class ViewController extends Controller
 
     public function addClient(Request $request)
     {
-        return view('add-client');
+        return view('add-client', [
+        'infoPages' => Page::getAll()
+        ]);
     }
 
     public function addCar(Request $request)

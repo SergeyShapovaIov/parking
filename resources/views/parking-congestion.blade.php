@@ -92,26 +92,26 @@
             margin-right: 20px;
         }
     </style>
-
-    @push('scripts')
-        <script>
-            function changeDataInSelect() {
-                var select = document.getElementById("clientSelect");
-                $.get('car/by-id-client/' + select.value, function (data) {
-                    $("#carSelect").find('option').remove();
-                    for (i = 0; i < data.length; i++) {
-                        $("#carSelect").prepend('<option value="' + data[i]["id"] + '">' + data[i]["brand"] + " " + data[i]["model"] + " " + data[i]["rf_license_number"] + '</option>');
-                    }
-                })
-            }
-
-            changeDataInSelect();
-
-            $("#clientSelect").change(function () {
-                changeDataInSelect();
-            });
-
-        </script>
-    @endpush
-
 @endsection
+
+@push('scripts')
+    <script>
+        function changeDataInSelect() {
+            var select = document.getElementById("clientSelect");
+            $.get('car/by-id-client/' + select.value, function (data) {
+                $("#carSelect").find('option').remove();
+                for (i = 0; i < data.length; i++) {
+                    $("#carSelect").prepend('<option value="' + data[i]["id"] + '">' + data[i]["brand"] + " " + data[i]["model"] + " " + data[i]["rf_license_number"] + '</option>');
+                }
+            })
+        }
+
+        changeDataInSelect();
+
+        $("#clientSelect").change(function () {
+            changeDataInSelect();
+        });
+
+    </script>
+@endpush
+
