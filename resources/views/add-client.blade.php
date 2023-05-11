@@ -51,8 +51,10 @@
 
 @endsection
 
-<style>
-    .error-alert {
-        list-style-type: none;
-    }
-</style>
+@push('styles')
+    <style>
+        .error-alert {
+            list-style-type: none;
+        }
+    </style>
+@endpush

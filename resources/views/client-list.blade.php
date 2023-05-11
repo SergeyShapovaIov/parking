@@ -72,7 +72,7 @@
                                 @endfor
                             @endif
                         @endif
-                        
+
                         <li class="page-item @if($pageNumber == $pageCount) disabled @endif"><a class="page-link" href="/client-list?page={{$pageNumber+1}}">Next</a></li>
                     </ul>
                 </nav>
@@ -82,63 +82,33 @@
     </div>
 
 </div>
-<style>
-    .item-container {
-        background-color: #0d6efd;
-        color: white;
-        height: 70px;
-        width: 100%;
-        border-radius: 10px;
-        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
-        display: flex;
-        position: relative;
-        margin: auto;
-        margin-top: 10px;
-
-    }
-
-    .text-item {
-        padding: 0 20px 0 20px;
-    }
-
-    .icon-item {
-        padding: 0 10px 0 10px;
-    }
-
-    .list-container {
-        margin-top: 50px;
-        width: 70%;
-        margin: auto;
-    }
-
-    .icon-container {
-        width: 20%;
-        display: flex;
-        float: right;
-        margin: 15px 0 15px 300px;
-    }
-
-    .text-container {
-        display: flex;
-        width: 80%;
-        float: left;
-        margin: 25px 0 25px 60px;
-    }
-
-    .title-container {
-        text-align: center;
-        margin-top: 30px;
-    }
-
-    .pagination-container {
-        margin-top: 40px;
-        width: 100%
-    }
-
-    .pagination-wrapper {
-        /* width: 600px; */
-        /* margin: auto; */
-    }
-
-</style>
 @endsection
+
+@push('styles')
+    <style>
+        .item-container {
+            background-color: #0d6efd;
+            color: white;
+            height: 70px;
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
+            display: flex;
+            position: relative;
+            margin: auto;
+            margin-top: 10px;
+
+        }
+
+        .title-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .pagination-container {
+            margin-top: 40px;
+            width: 100%
+        }
+
+    </style>
+@endpush

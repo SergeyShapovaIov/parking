@@ -73,7 +73,7 @@
                                 @endfor
                             @endif
                         @endif
-                        
+
                         <li class="page-item @if($pageNumber == $pageCount) disabled @endif"><a class="page-link" href="/car-list?page={{$pageNumber+1}}">Next</a></li>
                     </ul>
                 </nav>
@@ -82,35 +82,38 @@
         @endif
 
 </div>
-<style>
-    .item-container {
-        background-color: #0d6efd;
-        color: white;
-        height: 70px;
-        width: 100%;
-        border-radius: 10px;
-        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
-        display: flex;
-        position: relative;
-        margin: auto;
-        margin-top: 10px;
-
-    }
-
-    .title-container {
-        text-align: center;
-        margin-top: 30px;
-    }
-
-    .pagination-container {
-        margin-top: 40px;
-        width: 100%
-    }
-
-    .pagination-wrapper {
-        width: 300px;
-        margin: auto;
-    }
-
-</style>
 @endsection
+
+@push('styles')
+        <style>
+            .item-container {
+                background-color: #0d6efd;
+                color: white;
+                height: 70px;
+                width: 100%;
+                border-radius: 10px;
+                box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
+                display: flex;
+                position: relative;
+                margin: auto;
+                margin-top: 10px;
+
+            }
+
+            .title-container {
+                text-align: center;
+                margin-top: 30px;
+            }
+
+            .pagination-container {
+                margin-top: 40px;
+                width: 100%
+            }
+
+            .pagination-wrapper {
+                width: 300px;
+                margin: auto;
+            }
+
+        </style>
+@endpush

@@ -40,6 +40,10 @@
             </div>
         </div>
     </div>
+
+@endsection
+
+@push('styles')
     <style>
         .item-container {
             background-color: #0d6efd;
@@ -68,4 +72,4 @@
         }
 
     </style>
-@endsection
+@endpush

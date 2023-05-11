@@ -9,10 +9,12 @@
             </div>
         </div>
     </div>
+@endsection
 
+@push('styles')
     <style>
         .content-container {
             margin-top: 50px;
         }
     </style>
-@endsection
+@endpush
