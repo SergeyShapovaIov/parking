@@ -25,11 +25,17 @@ class Page extends Model
 
     static function store($params)
     {
-        return DB::table('page')->insertGetId([
-            'title' => $params['title'],
-            'text' => $params['text'],
-            'link' => $params['link']
-        ]);
+        if(DB::table('page')->where('title', '=', $params['title'])->exists()) {
+           throw new \Exception("Страница с таким заголовком уже существует!");
+        } elseif (DB::table('page')->where('link', '=', $params['link'])->exists()) {
+            throw new \Exception("Статья с такой ссылкой уже создана!");
+        } else {
+            return DB::table('page')->insertGetId([
+                'title' => $params['title'],
+                'text' => $params['text'],
+                'link' => $params['link']
+            ]);
+        }
     }
 
     static function deleteById($id)

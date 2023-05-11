@@ -18,11 +18,16 @@ class PageController extends Controller
             'link' => 'required|max:255'
         ]);
 
-
         try {
             Page::store($validated);
-        } catch (Exception $exception) {
-
+        } catch (\Exception $exception) {
+            return view('add-page', [
+                'title' => $validated['title'],
+                'text' => $validated['text'],
+                'link' => $validated['link'],
+                'message' => $exception->getMessage(),
+                'infoPages' => Page::getAll()
+            ]);
         }
 
         return redirect('admin-panel');
@@ -31,10 +36,10 @@ class PageController extends Controller
     public function updateById(Request $request)
     {
         $validated = $request->validate([
-           'page_id'=> 'required|min:1',
-           'title' => 'required|max:255',
-           'text' => 'required|max:2023',
-           'link' => 'required|max:255'
+            'page_id' => 'required|min:1',
+            'title' => 'required|max:255',
+            'text' => 'required|max:2023',
+            'link' => 'required|max:255'
         ]);
 
         try {

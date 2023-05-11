@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('page', function (Blueprint $table) {
 
             $table->id();
-            $table->string('link', 255);
+            $table->string('link', 255)->unique();
             $table->string('title', 255)->unique();
             $table->string('text', 2047);
 
