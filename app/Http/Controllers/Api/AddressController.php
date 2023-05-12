@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use http\Exception;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class AddressController extends Controller
@@ -31,4 +31,10 @@ class AddressController extends Controller
     {
         //
     }
+
+    private function composeJsonResponse(String $status, String $message)
+    {
+
+    }
+
 }
