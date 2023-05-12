@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Exceptions\AddressNotFoundException;
+use App\Exceptions\Address\AddressNotFoundException;
 use App\Exceptions\DuplicateRecordException;
-use App\Exceptions\RecipientNotFoundException;
+use App\Exceptions\Recipient\RecipientNotFoundException;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
@@ -29,7 +29,7 @@ class Address extends Model
         $address = DB::table('address')->where('id', '=', $id)->first();
 
         if ($address == null) {
-            throw new AddressNotFoundException(__('exceptions.entity_not_found', [
+            throw new AddressNotFoundException(__('exceptions.address_not_found', [
                 'attribute' => 'id',
                 'value' => $id
             ]));
