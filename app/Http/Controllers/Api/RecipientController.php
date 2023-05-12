@@ -31,4 +31,12 @@ class RecipientController extends Controller
     {
         //
     }
+
+    private function convertConvertMailingPropertyInArray($recipients): array
+    {
+        foreach ($recipients as $recipient) {
+            $recipient['consent_mailing'] = 0 ? false : true;
+        }
+        return $recipients;
+    }
 }

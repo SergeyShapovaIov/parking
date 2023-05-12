@@ -47,7 +47,7 @@ class Recipient extends Model
     /**
      * @throws RecipientNotFoundException
      */
-    static function updateById($params)
+    static function updateById($params): void
     {
         if (!self::checkExistRecipientById($params['id'])) {
             throw new RecipientNotFoundException(__('exceptions.recipient_not_found', [
@@ -64,9 +64,19 @@ class Recipient extends Model
             ]);
     }
 
-    static function deleteById()
+    /**
+     * @throws RecipientNotFoundException
+     */
+    static function deleteById($id): void
     {
-        //
+        if (!self::checkExistRecipientById($id)) {
+            throw new RecipientNotFoundException(__('exceptions.recipient_not_found', [
+                'attribute' => 'id',
+                'value' => $id
+            ]));
+        }
+
+        DB::table('recipient')->where('id', '=', $id)->delete();
     }
 
     static function checkExistRecipientById($id): bool
