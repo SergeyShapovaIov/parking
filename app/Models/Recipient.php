@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Recipient extends Model
 {
@@ -31,5 +32,10 @@ class Recipient extends Model
     static function deleteById()
     {
         //
+    }
+
+    static function checkExistRecipientById($id): bool
+    {
+        return DB::table('recipient')->where('id', '=', $id)->exists();
     }
 }
