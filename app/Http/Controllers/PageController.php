@@ -15,7 +15,7 @@ class PageController extends Controller
         $validated = $request->validate([
             'title' => 'required|max:255',
             'text' => 'required|max:2023',
-            'link' => 'required|max:255'
+            'link' => 'required|alpha_dash|max:255'
         ]);
 
         try {
@@ -79,5 +79,11 @@ class PageController extends Controller
         Page::deleteById($validated['page']);
 
         return redirect('admin-panel');
+    }
+
+    private function checkLinkIsFree($link)
+    {
+        $routes = include $_SERVER['DOCUMENT_ROOT'];
+//        if($link, RegisteredRoutes)
     }
 }

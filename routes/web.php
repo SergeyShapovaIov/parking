@@ -30,6 +30,7 @@ Route::get('/car-update-without_owner/', [ViewController::class, 'carUpdateWitho
 Route::get('/admin-panel', [ViewController::class, 'adminPanel'])->name('admin-panel');
 Route::get('/page-update/{page}', [ViewController::class, 'pageUpdate'])->name('page-update')->whereNumber('page');
 Route::get('/add-page', [ViewController::class, 'addPage'])->name('add-page');
+Route::get('/{link}', [PageController::class, 'getPageByLink'])->name('info-page');
 
 
 
@@ -59,6 +60,5 @@ Route::prefix('page')->group(function() {
     Route::post('create', [PageController::class, 'store'])->name('page.store');
     Route::post('update', [PageController::class, 'updateById'])->name('page.update');
     Route::delete('{page}', [PageController::class, 'deleteById'])->name('page.delete')->whereNumber('page');
-    Route::get('/info/{link}', [PageController::class, 'getPageByLink'])->name('info-page');
 });
 

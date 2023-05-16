@@ -40,7 +40,7 @@
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     @foreach($infoPages as $page)
-                                        <a class="dropdown-item" href="/page/info/{{ $page->link }}"> {{ $page->title }}</a>
+                                        <a class="dropdown-item" href="{{ $page->link }}"> {{ $page->title }}</a>
                                     @endforeach
                                 </div>
                             </div>
