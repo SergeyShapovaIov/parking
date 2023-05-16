@@ -21,6 +21,7 @@ return [
     'failed_query_recipient_update' => 'Failed to update received data',
     'failed_query_recipient_delete' => 'Failed to delete recipient',
     'successful_query_recipient_delete' => 'Recipient successfully deleted',
-    'successful_recipient_create'=> 'Recipient successfully added'
+    'successful_recipient_create'=> 'Recipient successfully added',
+    'successful_query_recipient_delete_with_addresses' => 'The recipient is successfully deleted along with its addresses (:count) pieces'
 
 ];

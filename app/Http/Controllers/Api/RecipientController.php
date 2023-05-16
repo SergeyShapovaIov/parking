@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Exceptions\Recipient\InputForRecipientNotValidException;
 use App\Exceptions\Recipient\RecipientNotFoundException;
 use App\Http\Controllers\Controller;
+use App\Models\Address;
 use App\Models\Recipient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -119,12 +120,25 @@ class RecipientController extends Controller
 
             $this->setLocaleFromHeaderRequest($request);
 
+            $addresses = Address::getByRecipientId($id);
+
             $recipient = Recipient::deleteById($id);
 
-            return response([
-                "message" => __('response_messages.successful_query_recipient_delete'),
-                "data" => $recipient
-            ], 200)->header('Content-Type', 'application/json');
+            if(count($addresses) == 0) {
+                return response([
+                    "message" => __('response_messages.successful_query_recipient_delete'),
+                    "data" => $recipient
+                ], 200)->header('Content-Type', 'application/json');
+            } else {
+                return response ([
+                    "message" => __('response_messages.successful_query_recipient_delete_with_addresses', ['count' => count($addresses)]),
+                    "data" => [
+                        "recipient" => $recipient,
+                        "addresses" => $addresses
+                    ]
+                ], 200);
+            }
+
 
         } catch (RecipientNotFoundException $exception) {
 

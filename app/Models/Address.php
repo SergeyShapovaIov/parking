@@ -117,6 +117,11 @@ class Address extends Model
         return DB::table('address')->where('id', '=', $id)->exists();
     }
 
+    static function getByRecipientId($id)
+    {
+        return DB::table('address')->where('recipient_id', '=', $id)->get();
+    }
+
     private static function checkRecordForDuplicate($params): bool
     {
         return DB::table('address')

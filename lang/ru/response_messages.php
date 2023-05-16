@@ -21,6 +21,7 @@ return [
     'failed_query_recipient_update' => 'Не удалось обновить данные получатля',
     'failed_query_recipient_delete' => 'Не удалось удалить получателя',
     'successful_query_recipient_delete' => 'Получатель успешно удален',
-    'successful_recipient_create'=> 'Получатель успешно добавлен'
+    'successful_recipient_create'=> 'Получатель успешно добавлен',
+    'successful_query_recipient_delete_with_addresses' => 'Получатель успешено удален вместе с его адресами (:count) штук'
 
 ];
