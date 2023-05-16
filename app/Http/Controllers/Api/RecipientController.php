@@ -2,13 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Exceptions\Address\AddressNotFoundException;
-use App\Exceptions\Address\InputForAddressNotValidException;
-use App\Exceptions\DuplicateRecordException;
 use App\Exceptions\Recipient\InputForRecipientNotValidException;
 use App\Exceptions\Recipient\RecipientNotFoundException;
 use App\Http\Controllers\Controller;
-use App\Models\Address;
 use App\Models\Recipient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
