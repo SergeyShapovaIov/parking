@@ -16,10 +16,10 @@ class AddressController extends Controller
     {
         $this->setLocaleFromHeaderRequest($request);
 
-        $address = Address::getAll();
+        $addresses = Address::getAll();
         return response([
-            "message" => __('response_messages.successful_query_count_address', ['count' => count($address)]),
-            "data" => $address
+            "message" => __('response_messages.successful_query_count_address', ['count' => count($addresses)]),
+            "data" => $addresses
         ], 200)->header('Content-Type', 'application/json');
     }
 
@@ -42,9 +42,14 @@ class AddressController extends Controller
             $address = Address::getById($validated['id']);
 
             return response([
-                "message" => __
+                "message" => __('response_messages.successful_query_address_update'),
+                "data" => $address
             ], 200)->header('Content-Type', 'application/json');
-        } catch () {
+        } catch (AddressNotFoundException $exception) {
+            return response([
+                "message" => __('failed_messages')
+            ], 400);
+        } catch (ValidationException $exception) {
 
         }
     }
@@ -74,7 +79,6 @@ class AddressController extends Controller
         $locale = $request->header()['lang'][0] ?? "en";
         App::setLocale($locale);
     }
-
 
 
 }
