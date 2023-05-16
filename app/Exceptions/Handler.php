@@ -26,7 +26,7 @@ class Handler extends ExceptionHandler
     ];
 
     /**
-     * A list of the inputs that are never flashed to the session on validation exceptions.
+     * A list of the inputs that are never flashed to the session on validation.php exceptions.
      *
      * @var array<int, string>
      */

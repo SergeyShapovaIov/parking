@@ -24,7 +24,7 @@ class Address extends Model
     /**
      * @throws AddressNotFoundException
      */
-    static function getById($id): Model|Builder
+    static function getById($id)
     {
         $address = DB::table('address')->where('id', '=', $id)->first();
 
@@ -61,27 +61,27 @@ class Address extends Model
      * @throws DuplicateRecordException
      * @throws RecipientNotFoundException
      */
-    static function updateById($params): void
+    static function updateById($params, $id): void
     {
-        if (!self::checkExistAddressById($params['id'])) {
+        if (!self::checkExistAddressById($id)) {
             throw new AddressNotFoundException(__('exceptions.address_not_found', [
                 'attribute' => 'id',
-                'value' => $params['id']
+                'value' => $id
             ]));
         }
 
-        if (self::checkRecordForDuplicate($params['id'])) {
+        if (self::checkRecordForDuplicate($params)) {
             throw new DuplicateRecordException(__('exceptions.duplicate_database_record'));
         }
 
-        if (!Recipient::checkExistRecipientById($params['id'])) {
+        if (!Recipient::checkExistRecipientById($params['recipient_id'])) {
             throw new RecipientNotFoundException(__('exceptions.recipient_not_found', [
                 'attribute' => 'id',
-                'value' => $params['id']
+                'value' => $id
             ]));
         }
 
-        DB::table('address')->where('id', '=', $params['id'])
+        DB::table('address')->where('id', '=', $id)
             ->update([
                 'region' => $params['region'],
                 'populated_area' => $params['populated_area'],
@@ -108,6 +108,11 @@ class Address extends Model
         DB::table('address')->where('id', '=', $id)->delete();
     }
 
+    static function checkExistAddressById($id): bool
+    {
+        return DB::table('address')->where('id', '=', $id)->exists();
+    }
+
     private static function checkRecordForDuplicate($params): bool
     {
         return DB::table('address')
@@ -119,10 +124,4 @@ class Address extends Model
             ->where('recipient_id', '=', $params['recipient_id'])
             ->exists();
     }
-
-    private static function checkExistAddressById($id): bool
-    {
-        return DB::table('address')->where('id', '=', $id)->exists();
-    }
-
 }
