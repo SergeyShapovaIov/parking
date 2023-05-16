@@ -77,7 +77,7 @@ class Address extends Model
         if (!Recipient::checkExistRecipientById($params['recipient_id'])) {
             throw new RecipientNotFoundException(__('exceptions.recipient_not_found', [
                 'attribute' => 'id',
-                'value' => $id
+                'value' => $params['recipient_id']
             ]));
         }
 
@@ -96,7 +96,7 @@ class Address extends Model
     /**
      * @throws AddressNotFoundException
      */
-    static function deleteById($id): void
+    static function deleteById($id): Collection
     {
         if (!self::checkExistAddressById($id)) {
             throw new AddressNotFoundException(__('exceptions.address_not_found', [
@@ -105,7 +105,11 @@ class Address extends Model
             ]));
         }
 
+        $address = DB::table('address')->where('id', '=', $id)->get();
+
         DB::table('address')->where('id', '=', $id)->delete();
+
+        return $address;
     }
 
     static function checkExistAddressById($id): bool

@@ -23,7 +23,7 @@ class Recipient extends Model
     /**
      * @throws RecipientNotFoundException
      */
-    static function getById($id): Model|Builder
+    static function getById($id)
     {
 
         if (!self::checkExistRecipientById($id)) {
@@ -47,16 +47,16 @@ class Recipient extends Model
     /**
      * @throws RecipientNotFoundException
      */
-    static function updateById($params): void
+    static function updateById($params, $id): void
     {
-        if (!self::checkExistRecipientById($params['id'])) {
+        if (!self::checkExistRecipientById($id)) {
             throw new RecipientNotFoundException(__('exceptions.recipient_not_found', [
                 'attribute' => 'id',
-                'value' => $params['id']
+                'value' => $id
             ]));
         }
 
-        DB::table('recipient')->where('id', '=', $params['id'])
+        DB::table('recipient')->where('id', '=', $id)
             ->update([
                 'first_name' => $params['first_name'],
                 'last_name' => $params['last_name'],
@@ -67,7 +67,7 @@ class Recipient extends Model
     /**
      * @throws RecipientNotFoundException
      */
-    static function deleteById($id): void
+    static function deleteById($id): Collection
     {
         if (!self::checkExistRecipientById($id)) {
             throw new RecipientNotFoundException(__('exceptions.recipient_not_found', [
@@ -76,7 +76,11 @@ class Recipient extends Model
             ]));
         }
 
+        $recipient = DB::table('recipient')->where('id', '=', $id)->get();
+
         DB::table('recipient')->where('id', '=', $id)->delete();
+
+        return $recipient;
     }
 
     static function checkExistRecipientById($id): bool

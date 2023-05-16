@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('street', 255);
             $table->string('house_number', 10);
             $table->integer('zip_code');
-            $table->foreignId('recipient_id')->constrained('recipient');
+            $table->foreignId('recipient_id')->constrained('recipient')->cascadeOnDelete();
         });
     }
 

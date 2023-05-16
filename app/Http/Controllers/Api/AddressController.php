@@ -9,7 +9,6 @@ use App\Exceptions\Recipient\RecipientNotFoundException;
 use App\Http\Controllers\Controller;
 use App\Models\Address;
 use App\Models\Recipient;
-use Dotenv\Repository\AdapterRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Validator;
@@ -136,18 +135,39 @@ class AddressController extends Controller
                 "message" => __('response_messages.failed_query_address_update'),
                 "errors" => $exception->getMessage()
             ], 200)->header('Content-Type', 'application/json');
+
+        } catch (InputForAddressNotValidException $exception) {
+
+            return response([
+                "message" => __('response_messages.failed_address_update'),
+                "errors" => json_decode($exception->getMessage())
+            ], 400)->header('Content-Type', 'application/json');
+
         }
 
     }
 
-    public function deleteById(Request $request)
+    public function deleteById(Request $request, $id)
     {
-        //
-    }
+        try {
 
-    private function composeJsonResponse(string $status, string $message)
-    {
+            $this->setLocaleFromHeaderRequest($request);
 
+            $address = Address::deleteById($id);
+
+            return response([
+                "message" => __('response_messages.successful_query_address_delete'),
+                "data" => $address
+            ], 200)->header('Content-Type', 'application/json');
+
+        } catch (AddressNotFoundException $exception) {
+
+            return response([
+                "message" => __('response_messages.failed_query_address_delete'),
+                "errors" => $exception->getMessage()
+            ], 400);
+
+        }
     }
 
     private function setLocaleFromHeaderRequest(Request $request): void
