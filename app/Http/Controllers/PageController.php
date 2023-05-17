@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Exceptions\Page\PageAlreadyRegisteredException;
 use App\Models\Page;
 use Illuminate\Http\Request;
 use PHPUnit\Exception;
@@ -19,7 +19,11 @@ class PageController extends Controller
         ]);
 
         try {
+
+            $this->checkLinkIsFree($validated['link']);
+
             Page::store($validated);
+
         } catch (\Exception $exception) {
             return view('add-page', [
                 'title' => $validated['title'],
@@ -81,9 +85,14 @@ class PageController extends Controller
         return redirect('admin-panel');
     }
 
-    private function checkLinkIsFree($link)
+    /**
+     * @throws PageAlreadyRegisteredException
+     */
+    private function checkLinkIsFree($link): void
     {
-        $routes = include $_SERVER['DOCUMENT_ROOT'];
-//        if($link, RegisteredRoutes)
+        $routes = require_once dirname(__DIR__, 3).'/routes/RegisteredRoutes.php';
+        if(in_array($link, $routes)) {
+            throw new PageAlreadyRegisteredException("Страница уже зарегистрированна!");
+        }
     }
 }

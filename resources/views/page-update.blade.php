@@ -27,8 +27,7 @@
 
                 <div class="mb-3">
                     <label class="form-label">Текст</label>
-                    <input name="text" class="form-control" type="text"
-                           value="{{ $page->text }}">
+                    <textarea name="text" class="form-control" type="text">{{ $page->text }}</textarea>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Ссылка</label>
