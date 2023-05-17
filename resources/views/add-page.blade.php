@@ -18,7 +18,7 @@
 
         <form class="col-lg-6 offset-lg-3" method="post" action="/page/create">
             @csrf
-            <div class="row justify-content-center">
+            <div id= "form" class="row justify-content-center">
                 <div class="mb-3">
                     <h4>Страница</h4>
                 </div>
@@ -36,10 +36,53 @@
                     <label class="form-label">Ссылка</label>
                     <input name="link" class="form-control" type="text" placeholder="employees" value="@if(isset($link)) {{ $link }}@else{{ old('link') }}@endif">
                 </div>
+
+
+                <h3>Метатег</h3>
+                <div class="mb-3">
+                    <label class="form-label">Имя</label>
+                    <input name="name" class="form-control" type="text" placeholder="title">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Содержание</label>
+                    <input name="content" class="form-control" type="text" placeholder="new title">
+                </div>
+
+                <button type="button" id="add-meta-tag-group" class="btn btn-info mb-3">Добавить метатег</button>
+
+
                 <button type="submit" class="btn btn-primary">Сохранить</button>
             </div>
         </form>
     </div>
+
+    <script>
+
+        var countTags = 0;
+        var createTagButton = newDiv = null;
+
+
+        $('#add-meta-tag-group').on('click', function () {
+            console.log(countTags);
+            addElement();
+        });
+
+        function addElement() {
+
+            // var newLabel = document.createElement("h3");
+            // newLabel.val('value', "Метатег " + ++countTags);
+
+            createTagButton = document.getElementById("add-meta-tag-group");
+            var divFrom = document.getElementById("form");
+
+            $('<h3>', {
+                text: "Метатег " + ++countTags
+            }).before('<button type="button" id="add-meta-tag-group" class="btn btn-info mb-3">Добавить метатег</button>');
+
+            // divFrom.insertBefore(newLabel, createTagButton);
+        }
+
+    </script>
 @endsection
 
 @push('tiny-script')
@@ -52,3 +95,4 @@
         });
     </script>
 @endpush
+

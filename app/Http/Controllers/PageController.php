@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\Page\PageAlreadyRegisteredException;
+use App\Models\MetaTag;
 use App\Models\Page;
 use Illuminate\Http\Request;
 use PHPUnit\Exception;
@@ -69,7 +70,7 @@ class PageController extends Controller
         return view('info-page', [
             'page' => $page,
             'infoPages' => Page::getAll(),
-            'tags' => MetaTag::getByLinkPage($validated['link'])
+            'tags' => MetaTag::getByPageId($page->id)
         ]);
     }
 
