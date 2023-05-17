@@ -14,7 +14,7 @@ class PageController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|max:255',
-            'text' => 'required|max:2023',
+            'text' => 'required|max:10000',
             'link' => 'required|alpha_dash|max:255'
         ]);
 
@@ -42,7 +42,7 @@ class PageController extends Controller
         $validated = $request->validate([
             'page_id' => 'required|min:1',
             'title' => 'required|max:255',
-            'text' => 'required|max:2023',
+            'text' => 'required|max:10000',
             'link' => 'required|max:255'
         ]);
 

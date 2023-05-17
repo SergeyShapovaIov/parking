@@ -5,7 +5,7 @@
             <h2>{{ $page->title }}</h2>
 
             <div class="content-container">
-                {{$page->text}}
+                {!! $page->text !!}
             </div>
         </div>
     </div>

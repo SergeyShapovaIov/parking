@@ -34,6 +34,7 @@ Route::get('/{link}', [PageController::class, 'getPageByLink'])->name('info-page
 
 
 
+
 Route::prefix('client')->group(function() {
     Route::get('getAll', [ClientController::class, 'getAll'])->name('client.getAll');
     Route::post('create', [ClientController::class, 'store'])->name('client.store');

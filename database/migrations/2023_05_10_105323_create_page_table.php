@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('link', 255)->unique();
             $table->string('title', 255)->unique();
-            $table->string('text', 2047);
+            $table->string('text',10000);
 
         });
     }
