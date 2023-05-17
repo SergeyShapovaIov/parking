@@ -68,7 +68,8 @@ class PageController extends Controller
 
         return view('info-page', [
             'page' => $page,
-            'infoPages' => Page::getAll()
+            'infoPages' => Page::getAll(),
+            'tags' => MetaTag::getByLinkPage($validated['link'])
         ]);
     }
 
