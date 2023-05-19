@@ -8,7 +8,8 @@
             <div class="d-flex">
                 <div class="add_button_container mx-2">
                     <a href="/add-page">
-                        <button type="button" id="add-car-button" class="btn btn-primary">Добавить новую страницу</button>
+                        <button type="button" id="add-car-button" class="btn btn-primary">Добавить новую страницу
+                        </button>
                     </a>
                 </div>
             </div>
@@ -18,9 +19,8 @@
                         <div class="container text-center">
                             <div class="row mt-3">
                                 <div class="col-2"> {{ $page->id }} </div>
-                                <div class="col-2 size"> {{ $page->title }} </div>
-                                <div
-                                    class="col-4 size"> {{$page->text }} </div>
+                                <div class="col-6 size"> {{ $page->title }} </div>
+
                                 <div class="col-2">
                                     <a href="/page-update/{{ $page->id }}">
                                         <button type="button" class="btn btn-light">Редактировать</button>
