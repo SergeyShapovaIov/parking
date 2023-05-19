@@ -2,7 +2,7 @@
 
 @section('meta_tags')
     @foreach($tags as $tag)
-        <meta name="{{ $tag->name }}}" content="{{ $tag->content }}">
+        <meta name="{{ $tag->name }}" content="{{ $tag->content }}">
     @endforeach
 @endsection
 

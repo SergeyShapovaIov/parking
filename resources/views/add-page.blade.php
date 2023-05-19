@@ -37,20 +37,6 @@
                     <input name="link" class="form-control" type="text" placeholder="employees" value="@if(isset($link)) {{ $link }}@else{{ old('link') }}@endif">
                 </div>
 
-
-                <h3>Метатег</h3>
-                <div class="mb-3">
-                    <label class="form-label">Имя</label>
-                    <input name="name" class="form-control" type="text" placeholder="title">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Содержание</label>
-                    <input name="content" class="form-control" type="text" placeholder="new title">
-                </div>
-
-                <button type="button" id="add-meta-tag-group" class="btn btn-info mb-3">Добавить метатег</button>
-
-
                 <button type="submit" class="btn btn-primary">Сохранить</button>
             </div>
         </form>
@@ -58,12 +44,11 @@
 
     <script>
 
-        var countTags = 0;
+        var countTags = 2;
         var createTagButton = newDiv = null;
 
 
         $('#add-meta-tag-group').on('click', function () {
-            console.log(countTags);
             addElement();
         });
 
@@ -71,13 +56,11 @@
 
             // var newLabel = document.createElement("h3");
             // newLabel.val('value', "Метатег " + ++countTags);
-
+            console.log(countTags);
             createTagButton = document.getElementById("add-meta-tag-group");
             var divFrom = document.getElementById("form");
 
-            $('<h3>', {
-                text: "Метатег " + ++countTags
-            }).before('<button type="button" id="add-meta-tag-group" class="btn btn-info mb-3">Добавить метатег</button>');
+            $('<h3>dfgdfgdfgdfg</h3>').insertBefore('<button type="button" id="add-meta-tag-group" class="btn btn-info mb-3">Добавить метатег</button>');
 
             // divFrom.insertBefore(newLabel, createTagButton);
         }

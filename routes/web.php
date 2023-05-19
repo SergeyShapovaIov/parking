@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MetaTagController;
 use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
@@ -30,6 +31,7 @@ Route::get('/car-update-without_owner/', [ViewController::class, 'carUpdateWitho
 Route::get('/admin-panel', [ViewController::class, 'adminPanel'])->name('admin-panel');
 Route::get('/page-update/{page}', [ViewController::class, 'pageUpdate'])->name('page-update')->whereNumber('page');
 Route::get('/add-page', [ViewController::class, 'addPage'])->name('add-page');
+Route::get('/add-meta-tag/{page}', [ViewController::class, 'addMetaTag'])->name('add-meta-tag')->whereNumber('page');
 Route::get('/{link}', [PageController::class, 'getPageByLink'])->name('info-page');
 
 
@@ -61,5 +63,10 @@ Route::prefix('page')->group(function() {
     Route::post('create', [PageController::class, 'store'])->name('page.store');
     Route::post('update', [PageController::class, 'updateById'])->name('page.update');
     Route::delete('{page}', [PageController::class, 'deleteById'])->name('page.delete')->whereNumber('page');
+});
+
+Route::prefix('meta-tag')->group( function () {
+   Route::post('/', [MetaTagController::class, 'store'])->name('meta-tag.store');
+   Route::delete('/{page_id}/{tag}', [MetaTagController::class, 'deleteById'])->name('meta-tag.delete-by-id')->whereNumber('page_id')->whereNumber('tag');
 });
 

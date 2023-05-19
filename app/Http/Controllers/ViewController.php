@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MetaTag;
 use App\Models\Page;
 use Illuminate\Http\Request;
 use App\Models\Client;
@@ -180,7 +181,9 @@ class ViewController extends Controller
 
         return view('page-update', [
             'page' => Page::getById($validated['page']),
-            'infoPages' => Page::getAll()
+            'infoPages' => Page::getAll(),
+            'pageId' => $validated['page'],
+            'tags' => MetaTag::getByPageId($validated['page'])
         ]);
     }
 
@@ -188,6 +191,14 @@ class ViewController extends Controller
     {
         return view('add-page', [
             'infoPages' => Page::getAll()
+        ]);
+    }
+
+    public function addMetaTag(Request $request, $id)
+    {
+        return view('add-meta-tag', [
+            'infoPages' => Page::getAll(),
+            'pageId' => $id
         ]);
     }
 
